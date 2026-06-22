@@ -428,6 +428,10 @@ html.daltonico .opcao-fonte:has(.radio-fonte:checked) {
     outline-offset: 3px;
 }
 
+.whatsapp-paleta:focus-visible .tooltip-whatsapp {
+    transform: scale(1);
+}
+
 .link-menu-paleta {
     color: var(--cor-texto);
 }
