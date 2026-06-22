@@ -11,7 +11,9 @@ async function carregarMenu() {
         const response = await fetch('menu.html');
 
         if (!response.ok) {
-            throw new Error(`Erro ao carregar o menu: ${response.status}`);
+            throw new Error(
+                `Erro ao carregar o menu: ${response.status}`
+            );
         }
 
         const menuHTML = await response.text();
@@ -20,12 +22,11 @@ async function carregarMenu() {
 
         iniciarMenuResponsivo();
         destacarPaginaAtual();
-
     } catch (erro) {
         console.error(erro);
 
         menuContainer.innerHTML = `
-            <div class="p-4 bg-red-100 text-red-800 text-center">
+            <div class="feedback-error p-4 text-center">
                 Não foi possível carregar o menu.
             </div>
         `;
@@ -39,59 +40,119 @@ function iniciarMenuResponsivo() {
     const overlay = document.getElementById('menu-overlay');
     const links = document.querySelectorAll('[data-menu-link]');
 
+    if (!botaoAbrir || !botaoFechar || !menu || !overlay) {
+        console.warn('Não foi possível iniciar o menu responsivo.');
+
+        return;
+    }
+
+    const larguraDesktop = 900;
+
+    function menuEstaAberto() {
+        return botaoAbrir.getAttribute('aria-expanded') === 'true';
+    }
+
     function abrirMenu() {
+        if (window.innerWidth >= larguraDesktop) {
+            return;
+        }
+
+        menu.inert = false;
         menu.style.transform = 'translateX(0)';
+
         overlay.classList.remove('hidden');
 
         botaoAbrir.setAttribute('aria-expanded', 'true');
+
         document.body.style.overflow = 'hidden';
 
         botaoFechar.focus();
     }
 
-    function fecharMenu() {
+    function fecharMenu(devolverFoco = false) {
+        const estavaAberto = menuEstaAberto();
+
         menu.style.transform = '';
         overlay.classList.add('hidden');
 
         botaoAbrir.setAttribute('aria-expanded', 'false');
+
         document.body.style.overflow = '';
+
+        if (
+            devolverFoco &&
+            estavaAberto &&
+            window.innerWidth < larguraDesktop
+        ) {
+            botaoAbrir.focus();
+        }
+
+        menu.inert = window.innerWidth < larguraDesktop;
+    }
+
+    function atualizarEstadoResponsivo() {
+        if (window.innerWidth >= larguraDesktop) {
+            menu.inert = false;
+            menu.style.transform = '';
+
+            overlay.classList.add('hidden');
+
+            botaoAbrir.setAttribute('aria-expanded', 'false');
+
+            document.body.style.overflow = '';
+        } else if (!menuEstaAberto()) {
+            menu.inert = true;
+        }
     }
 
     botaoAbrir.addEventListener('click', abrirMenu);
-    botaoFechar.addEventListener('click', fecharMenu);
-    overlay.addEventListener('click', fecharMenu);
+
+    botaoFechar.addEventListener('click', function () {
+        fecharMenu(true);
+    });
+
+    overlay.addEventListener('click', function () {
+        fecharMenu(true);
+    });
 
     links.forEach(function (link) {
-        link.addEventListener('click', fecharMenu);
+        link.addEventListener('click', function () {
+            fecharMenu(false);
+        });
     });
 
     document.addEventListener('keydown', function (event) {
-        if (event.key === 'Escape') {
-            fecharMenu();
+        if (event.key === 'Escape' && menuEstaAberto()) {
+            fecharMenu(true);
         }
     });
 
-    window.addEventListener('resize', function () {
-        if (window.innerWidth >= 900) {
-            fecharMenu();
-        }
-    });
+    window.addEventListener(
+        'resize',
+        atualizarEstadoResponsivo
+    );
+
+    atualizarEstadoResponsivo();
 }
 
 function destacarPaginaAtual() {
-    let paginaAtual = window.location.pathname.split('/').pop();
+    let paginaAtual =
+        window.location.pathname.split('/').pop();
 
     if (paginaAtual === '') {
         paginaAtual = 'index.html';
     }
 
-    const links = document.querySelectorAll('[data-menu-link]');
+    const links =
+        document.querySelectorAll('[data-menu-link]');
 
     links.forEach(function (link) {
         const destino = link.getAttribute('href');
 
         if (destino === paginaAtual) {
             link.setAttribute('aria-current', 'page');
+        } else {
+            link.removeAttribute('aria-current');
         }
     });
 }

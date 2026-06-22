@@ -29,12 +29,11 @@ $(document).ready(function () {
     });
 
     formulario.on('submit', function(event) {
-        const submitButton = $('#btn-enviar');
         event.preventDefault(); // Evita o recarregamento da página
         clearTimeout(temporizadorFeedback);
         
         feedbackDiv.addClass('hidden')
-                    .removeClass('feedback-info feedback-success feedback-error');
+                    .removeClass('feedback-success feedback-error');
 
         const dadosForm = {
             title: $('#nome').val(),
@@ -44,8 +43,8 @@ $(document).ready(function () {
             userId: 1 // exigência do jsonplaceholder
         };
 
-        submitButton.prop('disabled', true)
-                    .text('Enviando...');
+        botaEnviar.prop('disabled', true)
+                  .text('Enviando...');
 
         $.ajax({
             url: 'https://jsonplaceholder.typicode.com/posts',
@@ -56,7 +55,7 @@ $(document).ready(function () {
             success: function (response) {
                 console.log('Resposta do servidor: ', response);
 
-                feedbackDiv.removeClass('hidden feedback-info feedback-error')
+                feedbackDiv.removeClass('hidden feedback-error')
                             .addClass('feedback-success')
                             .html(`Mensagem enviada com sucesso! Entraremos em contato em breve.<br>Número de protocolo: ${response.id}`);
                 
@@ -64,19 +63,19 @@ $(document).ready(function () {
 
                 contador.text(`${maximo} caracteres restantes`);
                 contador.removeClass('contador-alerta');
-                esconderFeedback()
+                esconderFeedback();
             },
 
             error: function() {
-                feedbackDiv.removeClass('hidden feedback-info feedback-success')
+                feedbackDiv.removeClass('hidden feedback-success')
                             .addClass('feedback-error')
                             .text('Erro ao enviar mensagem. Por favor, tente novamente');
-                esconderFeedback()
+                esconderFeedback();
             },
 
             complete: function() {
-                submitButton.prop('disabled', false)
-                            .text('Enviar Solicitação');
+                botaEnviar.prop('disabled', false)
+                          .text('Enviar Solicitação');
             }
         });
     });
@@ -85,7 +84,7 @@ $(document).ready(function () {
         clearTimeout(temporizadorFeedback);
 
         temporizadorFeedback = setTimeout(function() {
-            $('#form-feedback').addClass('hidden');
+            feedbackDiv.addClass('hidden');
         }, 10000);
     }
 });

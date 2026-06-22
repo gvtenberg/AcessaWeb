@@ -1,9 +1,40 @@
-body {
-    transition: background-color 0.3s ease, color 0.3s ease, font-family 0.3s ease;
+body,
+.superficie-paleta,
+.menu-superficie,
+.rodape-paleta,
+.botao-paleta,
+.botao-menu,
+.link-menu-paleta,
+.link-lgpd-paleta,
+.botao-lgpd-paleta,
+.whatsapp-paleta,
+.campo-paleta,
+.botao-resetar-paleta {
+    transition:
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        color 0.3s ease;
 }
 
-header, section, input, textarea, button, footer, a {
-    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+@media (prefers-reduced-motion: reduce) {
+    .logos {
+        animation: none;
+    }
+
+    body,
+    .superficie-paleta,
+    .menu-superficie,
+    .rodape-paleta,
+    .botao-paleta,
+    .botao-menu,
+    .link-menu-paleta,
+    .link-lgpd-paleta,
+    .botao-lgpd-paleta,
+    .whatsapp-paleta,
+    .campo-paleta,
+    .botao-resetar-paleta {
+        transition: none;
+    }
 }
 
 /* Animação das logomarcas */
@@ -25,22 +56,6 @@ header, section, input, textarea, button, footer, a {
     mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .logos {
-        animation: none;
-    }
-
-    body, header, section, input, textarea, button, footer, a {
-        transition: none;
-    }
-}
-
-/* Adicionando compatibilidade do JS com Tailwind w Bootstrap ao mesmo tempo */
-.feedback-info {
-    background-color: #e5e7eb;
-    color: #1f2937;
-}
-
 .feedback-success {
     background-color: #dcfce7;
     color: #166534;
@@ -56,34 +71,377 @@ header, section, input, textarea, button, footer, a {
     font-weight: 700;
 }
 
+.rodape-paleta {
+    background-color: var(--cor-superficie);
+    color: var(--cor-texto-secundario);
+}
+
+/* Deixa o menu fixo na parte de cima da tela. Com sticky não é necessário compensar a altura do cabeçalho*/
+#menu__container {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+}
+
+:root, html[data-paleta="azul"] {
+    --cor-primaria: #2563eb;
+    --cor-primaria-hover: #1d4ed8;
+    --cor-texto-botao: #ffffff;
+    --cor-controle: #2563eb;
+
+    --cor-fundo: #f9fafb;
+    --cor-superficie: #ffffff;
+    --cor-texto: #111827;
+    --cor-texto-secundario: #4b5563;
+}
+
+html[data-paleta="verde"] {
+    --cor-primaria: #15803d;
+    --cor-primaria-hover: #166534;
+    --cor-texto-botao: #ffffff;
+    --cor-controle: #15803d;
+
+    --cor-fundo: #f0fdf4;
+    --cor-superficie: #ffffff;
+    --cor-texto: #14532d;
+    --cor-texto-secundario: #3f6212;
+}
+
+html[data-paleta="roxo"] {
+    --cor-primaria: #7e22ce;
+    --cor-primaria-hover: #6b21a8;
+    --cor-texto-botao: #ffffff;
+    --cor-controle: #7e22ce;
+
+    --cor-fundo: #faf5ff;
+    --cor-superficie: #ffffff;
+    --cor-texto: #3b0764;
+    --cor-texto-secundario: #6b21a8;
+}
+
+html[data-paleta="ambar"] {
+    --cor-primaria: #f59e0b;
+    --cor-primaria-hover: #d97706;
+    --cor-texto-botao: #111827;
+    --cor-controle: #111827;
+
+    --cor-fundo: #fffbeb;
+    --cor-superficie: #ffffff;
+    --cor-texto: #451a03;
+    --cor-texto-secundario: #78350f;
+}
+
+html[data-paleta="escura"] {
+    --cor-primaria: #60a5fa;
+    --cor-primaria-hover: #93c5fd;
+    --cor-texto-botao: #111827;
+    --cor-controle: #60a5fa;
+
+    --cor-fundo: #111827;
+    --cor-superficie: #1f2937;
+    --cor-texto: #f3f4f6;
+    --cor-texto-secundario: #d1d5db;
+}
+
+html[data-paleta="alto-contraste"] {
+    --cor-primaria: #facc15;
+    --cor-primaria-hover: #fde047;
+    --cor-texto-botao: #000000;
+    --cor-controle: #facc15;
+
+    --cor-fundo: #000000;
+    --cor-superficie: #111111;
+    --cor-texto: #ffffff;
+    --cor-texto-secundario: #ffffff;
+}
+
+html[data-paleta="personalizada"] {
+    --cor-primaria: var(--personalizada-primaria, #2563eb);
+    --cor-primaria-hover: var(--personalizada-primaria-hover, #1d4ed8);
+    --cor-texto-botao: var(--personalizada-texto-botao, #ffffff);
+    --cor-controle: var(--personalizada-texto-botao, #ffffff);
+
+    --cor-fundo: var(--personalizada-fundo, #f9fafb);
+    --cor-superficie: var(--personalizada-superficie, #ffffff);
+    --cor-texto: var(--personalizada-texto, #111827);
+    --cor-texto-secundario: var(--personalizada-texto, #111827);
+}
+
+html.dark {
+    --cor-fundo: #111827;
+    --cor-superficie: #1f2937;
+    --cor-texto: #f3f4f6;
+    --cor-texto-secundario: #d1d5db;
+}
+
+html.daltonico {
+    --cor-primaria: #fbbf24;
+    --cor-primaria-hover: #f59e0b;
+    --cor-texto-botao: #000000;
+    --cor-controle: #111827;
+
+    --cor-fundo: #fefce8;
+    --cor-superficie: #ffffff;
+    --cor-texto: #111827;
+    --cor-texto-secundario: #374151;
+}
+
+body {
+    background-color: var(--cor-fundo) !important;
+    color: var(--cor-texto) !important;
+}
+
+.superficie-paleta {
+    background-color: var(--cor-superficie) !important;
+    color: var(--cor-texto) !important;
+}
+
+.texto-secundario-paleta {
+    color: var(--cor-texto-secundario) !important;
+}
+
+::selection {
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto-botao);
+}
+
+.borda-paleta {
+    border-color: color-mix(
+        in srgb,
+        var(--cor-texto) 25%,
+        transparent
+    ) !important;
+}
+
+.campo-paleta {
+    background-color: color-mix(
+        in srgb,
+        var(--cor-superficie) 92%,
+        var(--cor-texto) 8%
+    );
+
+    color: var(--cor-texto);
+
+    border-color: color-mix(
+        in srgb,
+        var(--cor-texto) 30%,
+        transparent
+    );
+}
+
+.campo-paleta::placeholder {
+    color: var(--cor-texto-secundario);
+    opacity: 0.85;
+}
+
+.campo-paleta:focus-visible {
+    outline: 3px solid var(--cor-controle);
+    outline-offset: 2px;
+    border-color: var(--cor-controle);
+}
+
+.contador-paleta {
+    color: var(--cor-texto-secundario);
+}
+
+.botao-resetar-paleta {
+    background-color: transparent;
+    color: var(--cor-texto);
+    border: 2px solid var(--cor-controle);
+}
+
+.botao-resetar-paleta:hover {
+    background-color: color-mix(
+        in srgb,
+        var(--cor-primaria) 15%,
+        var(--cor-superficie)
+    );
+}
+
+.botao-resetar-paleta:focus-visible,
+#menu-button:focus-visible,
+#menu-close:focus-visible {
+    outline: 3px solid var(--cor-controle);
+    outline-offset: 3px;
+}
+
 .menu-superficie {
-    background-color: #ffffff;
-    color: #111827;
+    background-color: var(--cor-superficie);
+    color: var(--cor-texto);
+}
+
+.marca-paleta {
+    color: var(--cor-primaria);
 }
 
 .linha-menu {
-    background-color: #2563eb;
+    background-color: var(--cor-primaria);
 }
 
-html.dark .menu-superficie {
-    background-color: #1f2937;
-    color: #f3f4f6;
+[data-menu-link][aria-current="page"] {
+    background-color: var(--cor-primaria) !important;
+    color: var(--cor-texto-botao) !important;
 }
 
-html.dark .linha-menu {
-    background-color: #60a5fa;
+.botao-paleta {
+    background-color: var(--cor-primaria) !important;
+    color: var(--cor-texto-botao) !important;
 }
 
-html.daltonico .menu-superficie {
-    background-color: #ffffff;
-    color: #111827;
+.botao-paleta:hover {
+    background-color: var(--cor-primaria-hover) !important;
 }
 
-html.daltonico .linha-menu {
-    background-color: #000000;
+.paleta-opcao[aria-pressed="true"],
+.tamanho-fonte[aria-pressed="true"] {
+    border-color: var(--cor-primaria);
+    background-color: color-mix(
+        in srgb,
+        var(--cor-primaria) 12%,
+        transparent
+    );
+    font-weight: 700;
 }
 
-html.daltonico [data-menu-link][aria-current="page"] {
-    background-color: #fbbf24;
-    color: #000000;
+.paleta-opcao:focus-visible,
+.tamanho-fonte:focus-visible,
+#btn-aplicar-paleta:focus-visible,
+#btn-resetar-personalizacao:focus-visible {
+    outline: 3px solid var(--cor-primaria);
+    outline-offset: 3px;
+}
+
+html.texto-pequeno {
+    font-size: 87.5%;
+}
+
+html.texto-normal {
+    font-size: 100%;
+}
+
+html.texto-grande {
+    font-size: 112.5%;
+}
+
+html.texto-muito-grande {
+    font-size: 125%;
+}
+
+.radio-fonte {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin: 0;
+    flex-shrink: 0;
+    cursor: pointer;
+    accent-color: var(--cor-controle);
+}
+
+.opcao-fonte {
+    transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.opcao-fonte:has(.radio-fonte:checked) {
+    border-color: var(--cor-controle);
+    background-color: color-mix(
+        in srgb,
+        var(--cor-primaria) 10%,
+        transparent
+    );
+    font-weight: 700;
+}
+
+.opcao-fonte:has(.radio-fonte:focus-visible) {
+    outline: 3px solid var(--cor-controle);
+    outline-offset: 3px;
+}
+
+html.daltonico .opcao-fonte:has(.radio-fonte:checked) {
+    background-color: #fef3c7;
+}
+
+.botao-menu {
+    background-color: color-mix(
+        in srgb,
+        var(--cor-primaria) 18%,
+        var(--cor-superficie)
+    );
+
+    color: var(--cor-texto);
+    border: 1px solid var(--cor-primaria);
+}
+
+.botao-menu:hover {
+    background-color: color-mix(
+        in srgb,
+        var(--cor-primaria) 30%,
+        var(--cor-superficie)
+    );
+}
+
+.botao-menu:focus-visible {
+    outline: 3px solid var(--cor-controle);
+    outline-offset: 3px;
+}
+
+.link-lgpd-paleta {
+    color: var(--cor-primaria) !important;
+}
+
+.link-lgpd-paleta:hover {
+    color: var(--cor-primaria-hover) !important;
+}
+
+.link-lgpd-paleta:focus-visible {
+    outline: 3px solid var(--cor-primaria);
+    outline-offset: 3px;
+}
+
+.botao-lgpd-paleta {
+    background-color: var(--cor-primaria) !important;
+    color: var(--cor-texto-botao) !important;
+}
+
+.botao-lgpd-paleta:hover {
+    background-color: var(--cor-primaria-hover) !important;
+}
+
+.botao-lgpd-paleta:focus-visible {
+    outline: 3px solid var(--cor-primaria);
+    outline-offset: 3px;
+}
+
+.whatsapp-paleta {
+    background-color: var(--cor-primaria) !important;
+    color: var(--cor-texto-botao) !important;
+}
+
+.whatsapp-paleta:hover {
+    background-color: var(--cor-primaria-hover) !important;
+}
+
+.whatsapp-paleta:focus-visible {
+    outline: 3px solid var(--cor-primaria);
+    outline-offset: 3px;
+}
+
+.link-menu-paleta {
+    color: var(--cor-texto);
+}
+
+.link-menu-paleta:hover {
+    background-color: color-mix(
+        in srgb,
+        var(--cor-texto) 12%,
+        var(--cor-superficie)
+    );
+
+    color: var(--cor-texto);
+}
+
+.link-menu-paleta:focus-visible {
+    outline: 3px solid var(--cor-primaria);
+    outline-offset: 2px;
 }

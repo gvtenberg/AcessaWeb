@@ -1,11 +1,11 @@
-<div class="bg-white dark:bg-gray-800 shadow-md">
+<div class="superficie-paleta shadow-md">
     <div class="max-w-6xl mx-auto px-4 py-4 flex items-center gap-4">
         
-        <a href="index.html" class="shrink-0 text-2xl font-bold text-blue-600 dark:text-blue-400 daltonico:text-black">
+        <a href="index.html" class="marca-paleta shrink-0 text-2xl font-bold">
             AcessaWeb
         </a>
 
-        <!-- Hambúrguer somente em telas pequenas -->
+        <!-- Hambúrguer somente nas telas pequenas menor que 900 -->
         <button id="menu-button" type="button" aria-label="Abrir menu" aria-controls="main-menu" aria-expanded="false"
                 class="ml-auto flex flex-col gap-1.5 w-8 shrink-0 min-[900px]:hidden">
 
@@ -22,7 +22,7 @@
                    duration-300 min-[900px]:static min-[900px]:z-auto min-[900px]:h-auto min-[900px]:w-auto min-[900px]:translate-x-0
                    min-[900px]:shadow-none min-[900px]:overflow-visible min-[900px]:ml-auto">
 
-            <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 min-[900px]:hidden">
+            <div class="borda-paleta flex items-center justify-between p-4 border-b min-[900px]:hidden">
 
                 <span class="font-bold text-lg">Menu</span>
 
@@ -33,45 +33,33 @@
 
             <div class="flex flex-col gap-2 p-4 min-[900px]:flex-row min-[900px]:items-center min-[900px]:gap-1 min-[900px]:p-0">
 
-                <a data-menu-link href="index.html"
-                    class="px-3 py-2 rounded font-medium hover:bg-gray-200 dark:hover:bg-gray-700
-                        aria-[current=page]:bg-blue-600 aria-[current=page]:text-white">
+                <a data-menu-link href="index.html" class="px-3 py-2 rounded font-medium link-menu-paleta">
                     Início
                 </a>
 
-                <a data-menu-link href="solucoes.html"
-                   class="px-3 py-2 rounded font-medium hover:bg-gray-200 dark:hover:bg-gray-700
-                        aria-[current=page]:bg-blue-600 aria-[current=page]:text-white">
+                <a data-menu-link href="solucoes.html" class="px-3 py-2 rounded font-medium link-menu-paleta">
                     Soluções
                 </a>
 
-                <a data-menu-link href="configuracoes.html"
-                    class="px-3 py-2 rounded font-medium hover:bg-gray-200 dark:hover:bg-gray-700
-                        aria-[current=page]:bg-blue-600 aria-[current=page]:text-white">
+                <a data-menu-link href="configuracoes.html" class="px-3 py-2 rounded font-medium link-menu-paleta">
                     Personalização
                 </a>
 
-                <a data-menu-link href="tarefas.html"
-                    class="px-3 py-2 rounded font-medium hover:bg-gray-200 dark:hover:bg-gray-700
-                        aria-[current=page]:bg-blue-600 aria-[current=page]:text-white">
+                <a data-menu-link href="tarefas.html" class="px-3 py-2 rounded font-medium link-menu-paleta">
                     Tarefas
                 </a>
 
-                <a data-menu-link href="login.html"
-                    class="px-3 py-2 rounded font-medium hover:bg-gray-200 dark:hover:bg-gray-700
-                        aria-[current=page]:bg-blue-600 aria-[current=page]:text-white">
+                <a data-menu-link href="login.html" class="px-3 py-2 rounded font-medium link-menu-paleta">
                     Entrar
                 </a>
 
-                <div class="border-t border-gray-200 dark:border-gray-700 my-2 min-[900px]:hidden"></div>
+                <div class="borda-paleta border-t my-2 min-[900px]:hidden"></div>
 
-                <button id="btn-tema" type="button"
-                        class="px-3 py-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 font-semibold">
+                <button id="btn-tema" type="button" class="botao-menu px-3 py-2 rounded font-semibold">
                     Alternar tema
                 </button>
 
-                <button id="btn-fonte" type="button"
-                        class="px-3 py-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 font-semibold">
+                <button id="btn-fonte" type="button" class="botao-menu px-3 py-2 rounded font-semibold">
                     Alternar fonte
                 </button>
             </div>
