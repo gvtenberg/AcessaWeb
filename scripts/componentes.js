@@ -1,19 +1,28 @@
-document.addEventListener(
-    'DOMContentLoaded',
-    carregarComponentes
-);
+document.addEventListener('DOMContentLoaded', carregarComponentes);
+
+window.addEventListener('pageshow', function (event) {
+    /*
+     * Quando o navegador restaura uma página pelo cache de navegação,
+     * recria os componentes e reinicializa o VLibras.
+     */
+    if (event.persisted) {
+        reiniciarComponentes();
+    }
+});
+
+let promessaScriptVlibras = null;
 
 async function carregarComponentes() {
-    const container = document.getElementById(
-        'componentes__container'
-    );
+    const container = document.getElementById('componentes__container');
 
     if (!container) {
         return;
     }
 
     try {
-        const response = await fetch('componentes.html');
+        const response = await fetch('componentes.html', {
+            cache: 'no-store'
+        });
 
         if (!response.ok) {
             throw new Error(
@@ -25,10 +34,6 @@ async function carregarComponentes() {
 
         container.innerHTML = componentesHTML;
 
-        /*
-         * Informa ao app.js que o banner da LGPD
-         * já existe no documento.
-         */
         document.dispatchEvent(
             new CustomEvent('componentesCarregados')
         );
@@ -46,84 +51,93 @@ async function carregarComponentes() {
 }
 
 async function inicializarVlibras() {
-    try {
-        await carregarScriptVlibras();
+    const elementoVlibras = document.querySelector('[vw]');
 
-        if (
-            !window.VLibras ||
-            !window.VLibras.Widget
-        ) {
-            throw new Error(
-                'Biblioteca do VLibras indisponível.'
-            );
-        }
-
-        if (window.vlibrasWidgetInicializado) {
-            return;
-        }
-
-        new window.VLibras.Widget(
-            'https://vlibras.gov.br/app'
-        );
-
-        window.vlibrasWidgetInicializado = true;
-    } catch (erro) {
-        console.error(
-            'Não foi possível iniciar o VLibras.',
-            erro
-        );
+    if (!elementoVlibras) {
+        return;
     }
+
+    await carregarScriptVlibras();
+
+    if (!window.VLibras || !window.VLibras.Widget) {
+        throw new Error('A biblioteca do VLibras não foi carregada.');
+    }
+
+    if (elementoVlibras.dataset.inicializado === 'true') {
+        return;
+    }
+
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+
+    elementoVlibras.dataset.inicializado = 'true';
 }
 
 function carregarScriptVlibras() {
-    if (
-        window.VLibras &&
-        window.VLibras.Widget
-    ) {
+    if (window.VLibras && window.VLibras.Widget) {
         return Promise.resolve();
     }
 
-    const scriptExistente = document.querySelector(
-        'script[data-vlibras-plugin]'
-    );
-
-    if (scriptExistente) {
-        return new Promise(function (resolve, reject) {
-            scriptExistente.addEventListener(
-                'load',
-                resolve,
-                { once: true }
-            );
-
-            scriptExistente.addEventListener(
-                'error',
-                reject,
-                { once: true }
-            );
-        });
+    if (promessaScriptVlibras) {
+        return promessaScriptVlibras;
     }
 
-    return new Promise(function (resolve, reject) {
-        const script = document.createElement('script');
+    promessaScriptVlibras = new Promise(function (resolve, reject) {
+        let script = document.querySelector(
+            'script[data-vlibras-plugin]'
+        );
 
-        script.src =
-            'https://vlibras.gov.br/app/vlibras-plugin.js';
+        if (!script) {
+            script = document.createElement('script');
 
-        script.async = true;
-        script.dataset.vlibrasPlugin = 'true';
+            script.src =
+                'https://vlibras.gov.br/app/vlibras-plugin.js';
+
+            script.async = true;
+            script.dataset.vlibrasPlugin = 'true';
+
+            document.head.appendChild(script);
+        }
 
         script.addEventListener(
             'load',
-            resolve,
+            function () {
+                resolve();
+            },
             { once: true }
         );
 
         script.addEventListener(
             'error',
-            reject,
+            function () {
+                promessaScriptVlibras = null;
+
+                reject(
+                    new Error('Erro ao carregar o script do VLibras.')
+                );
+            },
             { once: true }
         );
 
-        document.head.appendChild(script);
+        /*
+         * Caso o script já tenha terminado de carregar
+         * antes dos eventos serem registrados.
+         */
+        if (window.VLibras && window.VLibras.Widget) {
+            resolve();
+        }
     });
+
+    return promessaScriptVlibras;
+}
+
+function reiniciarComponentes() {
+    const container = document.getElementById('componentes__container');
+
+    if (!container) {
+        return;
+    }
+
+    container.innerHTML = '';
+
+    carregarComponentes();
 }

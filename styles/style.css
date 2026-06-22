@@ -222,7 +222,7 @@ body {
 
     color: var(--cor-texto);
 
-    border-color: color-mix(
+    border: 2px solid color-mix(
         in srgb,
         var(--cor-texto) 30%,
         transparent
@@ -235,9 +235,14 @@ body {
 }
 
 .campo-paleta:focus-visible {
-    outline: 3px solid var(--cor-controle);
-    outline-offset: 2px;
+    outline: none;
     border-color: var(--cor-controle);
+
+    box-shadow: 0 0 0 1px color-mix(
+        in srgb,
+        var(--cor-controle) 45%,
+        transparent
+    );
 }
 
 .contador-paleta {
