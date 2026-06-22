@@ -7,7 +7,7 @@ $(document).ready(function () {
 
     const textarea = $('#msg');
     const contador = $('#contador-caracteres');
-    const botaEnviar = $('#btn-enviar');
+    const botaoEnviar = $('#btn-enviar');
     const feedbackDiv = $('#form-feedback');
     const maximo = Number(textarea.attr('maxlength')) || 500; // pega o maxlength de forma automática
     
@@ -43,8 +43,8 @@ $(document).ready(function () {
             userId: 1 // exigência do jsonplaceholder
         };
 
-        botaEnviar.prop('disabled', true)
-                  .text('Enviando...');
+        botaoEnviar.prop('disabled', true)
+                   .text('Enviando...');
 
         $.ajax({
             url: 'https://jsonplaceholder.typicode.com/posts',
@@ -74,8 +74,8 @@ $(document).ready(function () {
             },
 
             complete: function() {
-                botaEnviar.prop('disabled', false)
-                          .text('Enviar Solicitação');
+                botaoEnviar.prop('disabled', false)
+                           .text('Enviar Solicitação');
             }
         });
     });
