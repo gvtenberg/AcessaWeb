@@ -1,0 +1,80 @@
+<div class="bg-white dark:bg-gray-800 shadow-md">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center gap-4">
+        
+        <a href="index.html" class="shrink-0 text-2xl font-bold text-blue-600 dark:text-blue-400 daltonico:text-black">
+            AcessaWeb
+        </a>
+
+        <!-- Hambúrguer somente em telas pequenas -->
+        <button id="menu-button" type="button" aria-label="Abrir menu" aria-controls="main-menu" aria-expanded="false"
+                class="ml-auto flex flex-col gap-1.5 w-8 shrink-0 min-[900px]:hidden">
+
+            <span class="linha-menu block h-1 w-full rounded"></span>
+            <span class="linha-menu block h-1 w-full rounded"></span>
+            <span class="linha-menu block h-1 w-full rounded"></span>
+        </button>
+
+        <div id="menu-overlay" class="hidden fixed inset-0 z-40 bg-black/50 min-[900px]:hidden">
+        </div>
+
+        <nav id="main-menu" aria-label="Menu principal"
+            class="menu-superficie fixed top-0 right-0 z-50 h-full w-72 translate-x-full shadow-xl overflow-y-auto transition-transform
+                   duration-300 min-[900px]:static min-[900px]:z-auto min-[900px]:h-auto min-[900px]:w-auto min-[900px]:translate-x-0
+                   min-[900px]:shadow-none min-[900px]:overflow-visible min-[900px]:ml-auto">
+
+            <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 min-[900px]:hidden">
+
+                <span class="font-bold text-lg">Menu</span>
+
+                <button id="menu-close" type="button" class="text-3xl leading-none" aria-label="Fechar menu">
+                    &times;
+                </button>
+            </div>
+
+            <div class="flex flex-col gap-2 p-4 min-[900px]:flex-row min-[900px]:items-center min-[900px]:gap-1 min-[900px]:p-0">
+
+                <a data-menu-link href="index.html"
+                    class="px-3 py-2 rounded font-medium hover:bg-gray-200 dark:hover:bg-gray-700
+                        aria-[current=page]:bg-blue-600 aria-[current=page]:text-white">
+                    Início
+                </a>
+
+                <a data-menu-link href="solucoes.html"
+                   class="px-3 py-2 rounded font-medium hover:bg-gray-200 dark:hover:bg-gray-700
+                        aria-[current=page]:bg-blue-600 aria-[current=page]:text-white">
+                    Soluções
+                </a>
+
+                <a data-menu-link href="configuracoes.html"
+                    class="px-3 py-2 rounded font-medium hover:bg-gray-200 dark:hover:bg-gray-700
+                        aria-[current=page]:bg-blue-600 aria-[current=page]:text-white">
+                    Personalização
+                </a>
+
+                <a data-menu-link href="tarefas.html"
+                    class="px-3 py-2 rounded font-medium hover:bg-gray-200 dark:hover:bg-gray-700
+                        aria-[current=page]:bg-blue-600 aria-[current=page]:text-white">
+                    Tarefas
+                </a>
+
+                <a data-menu-link href="login.html"
+                    class="px-3 py-2 rounded font-medium hover:bg-gray-200 dark:hover:bg-gray-700
+                        aria-[current=page]:bg-blue-600 aria-[current=page]:text-white">
+                    Entrar
+                </a>
+
+                <div class="border-t border-gray-200 dark:border-gray-700 my-2 min-[900px]:hidden"></div>
+
+                <button id="btn-tema" type="button"
+                        class="px-3 py-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 font-semibold">
+                    Alternar tema
+                </button>
+
+                <button id="btn-fonte" type="button"
+                        class="px-3 py-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 font-semibold">
+                    Alternar fonte
+                </button>
+            </div>
+        </nav>
+    </div>
+</div>

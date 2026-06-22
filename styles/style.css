@@ -55,3 +55,35 @@ header, section, input, textarea, button, footer, a {
     color: #ef4444 !important;
     font-weight: 700;
 }
+
+.menu-superficie {
+    background-color: #ffffff;
+    color: #111827;
+}
+
+.linha-menu {
+    background-color: #2563eb;
+}
+
+html.dark .menu-superficie {
+    background-color: #1f2937;
+    color: #f3f4f6;
+}
+
+html.dark .linha-menu {
+    background-color: #60a5fa;
+}
+
+html.daltonico .menu-superficie {
+    background-color: #ffffff;
+    color: #111827;
+}
+
+html.daltonico .linha-menu {
+    background-color: #000000;
+}
+
+html.daltonico [data-menu-link][aria-current="page"] {
+    background-color: #fbbf24;
+    color: #000000;
+}
