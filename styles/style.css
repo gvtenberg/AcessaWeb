@@ -16,27 +16,6 @@ body,
         color 0.3s ease;
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .logos {
-        animation: none;
-    }
-
-    body,
-    .superficie-paleta,
-    .menu-superficie,
-    .rodape-paleta,
-    .botao-paleta,
-    .botao-menu,
-    .link-menu-paleta,
-    .link-lgpd-paleta,
-    .botao-lgpd-paleta,
-    .whatsapp-paleta,
-    .campo-paleta,
-    .botao-resetar-paleta {
-        transition: none;
-    }
-}
-
 /* Animação das logomarcas */
 @keyframes rolar {
     0% { transform: translateX(0); }
@@ -228,7 +207,7 @@ body {
         in srgb,
         var(--cor-texto) 25%,
         transparent
-    ) !important;
+    );
 }
 
 .campo-paleta {
@@ -328,8 +307,7 @@ body {
 
 .paleta-opcao:focus-visible,
 .tamanho-fonte:focus-visible,
-#btn-aplicar-paleta:focus-visible,
-#btn-resetar-personalizacao:focus-visible {
+#btn-aplicar-paleta:focus-visible {
     outline: 3px solid var(--cor-primaria);
     outline-offset: 3px;
 }
@@ -353,7 +331,7 @@ html.texto-muito-grande {
 .radio-fonte {
     width: 1.2rem;
     height: 1.2rem;
-    margin: 0;
+    margin: 0 0.5rem 0 0;
     flex-shrink: 0;
     cursor: pointer;
     accent-color: var(--cor-controle);
@@ -478,4 +456,25 @@ html.daltonico .opcao-fonte:has(.radio-fonte:checked) {
 .tooltip-whatsapp {
     background-color: #111827;
     color: #ffffff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .logos {
+        animation: none;
+    }
+
+    body,
+    .superficie-paleta,
+    .menu-superficie,
+    .rodape-paleta,
+    .botao-paleta,
+    .botao-menu,
+    .link-menu-paleta,
+    .link-lgpd-paleta,
+    .botao-lgpd-paleta,
+    .whatsapp-paleta,
+    .campo-paleta,
+    .botao-resetar-paleta {
+        transition: none;
+    }
 }
