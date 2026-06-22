@@ -445,3 +445,14 @@ html.daltonico .opcao-fonte:has(.radio-fonte:checked) {
     outline: 3px solid var(--cor-primaria);
     outline-offset: 2px;
 }
+
+.banner-lgpd {
+    background-color: rgba(17, 24, 39, 0.96);
+    color: #ffffff;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tooltip-whatsapp {
+    background-color: #111827;
+    color: #ffffff;
+}

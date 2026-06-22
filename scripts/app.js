@@ -1,10 +1,10 @@
-$(document).ready(function() {
+$(document).ready(function () {
     const htmlElement = $('html');
     const bodyElement = $('body');
 
     function aplicarTema(tema) {
         htmlElement.removeClass('dark daltonico');
-        
+
         if (tema === 'escuro') {
             htmlElement.addClass('dark');
         } else if (tema === 'daltonico') {
@@ -13,8 +13,10 @@ $(document).ready(function() {
     }
 
     function aplicarFonte(fonte) {
-        bodyElement.removeClass('font-sans font-serif font-dislexia');
-        
+        bodyElement.removeClass(
+            'font-sans font-serif font-dislexia'
+        );
+
         if (fonte === 'serif') {
             bodyElement.addClass('font-serif');
         } else if (fonte === 'dislexia') {
@@ -24,52 +26,96 @@ $(document).ready(function() {
         }
     }
 
-    const temaSalvo = localStorage.getItem('tema') || 'claro';
-    const fonteSalva = localStorage.getItem('fonte') || 'sans';
-    const lgpdAceito = localStorage.getItem('lgpd_aceito');
+    function atualizarAvisoLgpd() {
+        const banner = $('#lgpd-banner');
+
+        if (banner.length === 0) {
+            return;
+        }
+
+        const lgpdAceito =
+            localStorage.getItem('lgpd_aceito');
+
+        if (lgpdAceito === 'sim') {
+            banner.addClass('hidden');
+        } else {
+            banner.removeClass('hidden');
+        }
+    }
+
+    const temaSalvo =
+        localStorage.getItem('tema') || 'claro';
+
+    const fonteSalva =
+        localStorage.getItem('fonte') || 'sans';
 
     aplicarTema(temaSalvo);
     aplicarFonte(fonteSalva);
 
-    if (lgpdAceito !== 'sim') {
-        $('#lgpd-banner').removeClass('hidden');
-    }
+    /*
+     * Executa imediatamente se o banner já existir.
+     */
+    atualizarAvisoLgpd();
 
-    // Alterna o tema claro/escuro
+    /*
+     * Executa novamente quando componentes.js
+     * terminar a injeção.
+     */
+    document.addEventListener(
+        'componentesCarregados',
+        atualizarAvisoLgpd
+    );
+
     $(document).on('click', '#btn-tema', function () {
-        const temaAtual = localStorage.getItem('tema') || 'claro';
+        const temaAtual =
+            localStorage.getItem('tema') || 'claro';
+
         let proximoTema;
 
-        if(temaAtual === 'claro'){
+        if (temaAtual === 'claro') {
             proximoTema = 'escuro';
-        } else if(temaAtual === 'escuro'){
+        } else if (temaAtual === 'escuro') {
             proximoTema = 'daltonico';
         } else {
             proximoTema = 'claro';
         }
 
         aplicarTema(proximoTema);
-        localStorage.setItem('tema', proximoTema);
+
+        localStorage.setItem(
+            'tema',
+            proximoTema
+        );
     });
 
     $(document).on('click', '#btn-fonte', function () {
-        const fonteAtual = localStorage.getItem('fonte') || 'sans';
+        const fonteAtual =
+            localStorage.getItem('fonte') || 'sans';
+
         let proximaFonte;
 
-        if(fonteAtual === 'sans'){
+        if (fonteAtual === 'sans') {
             proximaFonte = 'serif';
-        } else if(fonteAtual === 'serif'){
+        } else if (fonteAtual === 'serif') {
             proximaFonte = 'dislexia';
         } else {
             proximaFonte = 'sans';
         }
 
         aplicarFonte(proximaFonte);
-        localStorage.setItem('fonte', proximaFonte);
+
+        localStorage.setItem(
+            'fonte',
+            proximaFonte
+        );
     });
 
     $(document).on('click', '#btn-lgpd', function () {
-        localStorage.setItem('lgpd_aceito', 'sim');
+        localStorage.setItem(
+            'lgpd_aceito',
+            'sim'
+        );
+
         $('#lgpd-banner').addClass('hidden');
     });
 });
