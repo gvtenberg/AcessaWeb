@@ -83,6 +83,24 @@ body,
     z-index: 60;
 }
 
+#main-menu {
+    transform: translateX(100%);
+    visibility: hidden;
+    will-change: transform;
+}
+
+#main-menu.menu-aberto {
+    transform: translateX(0);
+    visibility: visible;
+}
+
+@media (min-width: 900px) {
+    #main-menu {
+        transform: none;
+        visibility: visible;
+    }
+}
+
 :root, html[data-paleta="azul"] {
     --cor-primaria: #2563eb;
     --cor-primaria-hover: #1d4ed8;

@@ -8,7 +8,9 @@ async function carregarMenu() {
     }
 
     try {
-        const response = await fetch('menu.html');
+        const response = await fetch('menu.html', {
+            cache: 'no-store'
+        });
 
         if (!response.ok) {
             throw new Error(
@@ -58,7 +60,8 @@ function iniciarMenuResponsivo() {
         }
 
         menu.inert = false;
-        menu.style.transform = 'translateX(0)';
+        menu.removeAttribute('aria-hidden');
+        menu.classList.add('menu-aberto');
 
         overlay.classList.remove('hidden');
 
@@ -72,7 +75,8 @@ function iniciarMenuResponsivo() {
     function fecharMenu(devolverFoco = false) {
         const estavaAberto = menuEstaAberto();
 
-        menu.style.transform = '';
+        menu.classList.remove('menu-aberto');
+
         overlay.classList.add('hidden');
 
         botaoAbrir.setAttribute('aria-expanded', 'false');
@@ -87,21 +91,31 @@ function iniciarMenuResponsivo() {
             botaoAbrir.focus();
         }
 
-        menu.inert = window.innerWidth < larguraDesktop;
+        if (window.innerWidth < larguraDesktop) {
+            menu.inert = true;
+            menu.setAttribute('aria-hidden', 'true');
+        }
     }
 
     function atualizarEstadoResponsivo() {
         if (window.innerWidth >= larguraDesktop) {
             menu.inert = false;
-            menu.style.transform = '';
+            menu.removeAttribute('aria-hidden');
+            menu.classList.remove('menu-aberto');
 
             overlay.classList.add('hidden');
 
             botaoAbrir.setAttribute('aria-expanded', 'false');
 
             document.body.style.overflow = '';
-        } else if (!menuEstaAberto()) {
+
+            return;
+        }
+
+        if (!menuEstaAberto()) {
             menu.inert = true;
+            menu.setAttribute('aria-hidden', 'true');
+            menu.classList.remove('menu-aberto');
         }
     }
 
