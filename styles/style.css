@@ -45,6 +45,13 @@ body,
     color: #991b1b;
 }
 
+.feedback-lista-sticky {
+    position: sticky;
+    top: 5.25rem;
+    z-index: 40;
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.14);
+}
+
 .contador-alerta {
     color: #ef4444 !important;
     font-weight: 700;
@@ -460,6 +467,180 @@ html.daltonico .opcao-fonte:has(.radio-fonte:checked) {
 .tooltip-whatsapp {
     background-color: #111827;
     color: #ffffff;
+}
+
+.lista-tarefas {
+    display: grid;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+.tarefa-item {
+    padding: 1rem;
+
+    background-color: color-mix(
+        in srgb,
+        var(--cor-superficie) 96%,
+        var(--cor-texto) 4%
+    );
+
+    border: 1px solid color-mix(
+        in srgb,
+        var(--cor-texto) 25%,
+        transparent
+    );
+
+    border-radius: 0.5rem;
+}
+
+.tarefa-item:hover {
+    background-color: color-mix(
+        in srgb,
+        var(--cor-superficie) 90%,
+        var(--cor-primaria) 10%
+    );
+}
+
+.tarefa-visualizacao {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.tarefa-conteudo {
+    flex: 1;
+    min-width: 0;
+}
+
+.tarefa-texto {
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.tarefa-data {
+    margin-top: 0.35rem;
+    color: var(--cor-texto-secundario);
+    font-size: 0.875rem;
+}
+
+.tarefa-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    gap: 0.5rem;
+}
+
+.tarefa-edicao {
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.tarefa-edicao:not([hidden]) {
+    display: flex;
+}
+
+.tarefa-edit-input {
+    width: 100%;
+    padding: 0.625rem;
+    border-radius: 0.375rem;
+}
+
+.tarefa-botoes-edicao {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.botao-tarefa,
+.botao-secundario-paleta {
+    min-height: 2.5rem;
+    padding: 0.5rem 1rem;
+
+    border: 1px solid transparent;
+    border-radius: 0.375rem;
+
+    font-weight: 600;
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.botao-tarefa-primario {
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto-botao);
+}
+
+.botao-tarefa-primario:hover {
+    background-color: var(--cor-primaria-hover);
+}
+
+.botao-tarefa-secundario,
+.botao-secundario-paleta {
+    background-color: transparent;
+    color: var(--cor-texto);
+    border-color: var(--cor-primaria);
+}
+
+.botao-tarefa-secundario:hover,
+.botao-secundario-paleta:hover {
+    background-color: color-mix(
+        in srgb,
+        var(--cor-primaria) 15%,
+        var(--cor-superficie)
+    );
+}
+
+.botao-tarefa-perigo {
+    background-color: #b91c1c;
+    color: #ffffff;
+    border-color: #b91c1c;
+}
+
+.botao-tarefa-perigo:hover {
+    background-color: #991b1b;
+    border-color: #991b1b;
+}
+
+.botao-tarefa:focus-visible,
+.botao-secundario-paleta:focus-visible {
+    outline: 2px solid var(--cor-controle);
+    outline-offset: 2px;
+}
+
+.botao-tarefa:disabled,
+.botao-secundario-paleta:disabled,
+#btn-adicionar-tarefa:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+@media (max-width: 640px) {
+    .tarefa-visualizacao {
+        flex-direction: column;
+    }
+
+    .tarefa-acoes {
+        width: 100%;
+    }
+
+    .tarefa-acoes .botao-tarefa {
+        flex: 1;
+    }
+
+    .tarefa-botoes-edicao .botao-tarefa {
+        flex: 1;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {

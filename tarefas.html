@@ -17,6 +17,7 @@
     <script src="scripts/app.js" defer></script>
     <script src="scripts/menu.js" defer></script>
     <script src="scripts/componentes.js" defer></script>
+    <script src="scripts/tarefas.js" defer></script>
 
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <link rel="stylesheet" href="styles/style.css">
@@ -28,28 +29,83 @@
     <main class="flex-grow max-w-5xl mx-auto w-full px-4 py-12">
         <section class="text-center mb-10">
             <h1 class="text-4xl font-extrabold mb-4">
-                Tarefas
+                Lista de Tarefas
             </h1>
 
             <p class="texto-secundario-paleta text-lg max-w-3xl mx-auto">
-                Crie, acompanhe, atualize e organize suas tarefas em um único espaço.
+                Adicione, edite e exclua tarefas. As informações são armazenadas pelo serviço
+                <a href="https://github.com/w2costa/todo-with-auth">Spring Boot fornecido pelo professor</a>.
             </p>
         </section>
 
-        <section id="secao-tarefas" class="superficie-paleta p-6 rounded-lg shadow-lg" aria-labelledby="titulo-gerenciador-tarefas">
+        <section class="superficie-paleta p-6 rounded-lg shadow-lg mb-8" aria-labelledby="titulo-nova-tarefa">
 
-            <h2 id="titulo-gerenciador-tarefas" class="text-2xl font-bold mb-4">
-                Gerenciador de tarefas
+            <h2 id="titulo-nova-tarefa" class="text-2xl font-bold mb-4">
+                Nova tarefa
             </h2>
 
-            <div id="tarefas-app">
-                <p class="texto-secundario-paleta">
-                    A lista e o formulário de tarefas serão carregados nesta área.
-                </p>
+            <form id="form-tarefa">
+
+                <label for="nova-tarefa" class="block font-medium mb-2">
+                    Descrição da tarefa
+                </label>
+
+                <div class="flex flex-col sm:flex-row gap-3">
+
+                    <input type="text" id="nova-tarefa" name="nova-tarefa" class="campo-paleta flex-grow w-full p-3 rounded"
+                        placeholder="Exemplo: Estudar AngularJS" maxlength="255" required autocomplete="off"
+                        aria-describedby="ajuda-nova-tarefa contador-tarefa">
+
+                    <button type="submit" id="btn-adicionar-tarefa" class="botao-paleta font-bold py-3 px-6 rounded whitespace-nowrap">
+                        Adicionar tarefa
+                    </button>
+
+                </div>
+
+                <div class="flex flex-col sm:flex-row sm:justify-between gap-1 mt-2">
+
+                    <p id="ajuda-nova-tarefa" class="texto-secundario-paleta text-sm">
+                        Digite uma descrição com até 255 caracteres.
+                    </p>
+
+                    <p id="contador-tarefa" class="contador-paleta text-sm sm:text-right">
+                        255 caracteres restantes
+                    </p>
+
+                </div>
+            </form>
+
+            <p id="nova-tarefa-feedback" class="hidden mt-4 p-3 rounded font-semibold" role="status" aria-live="polite">
+            </p>
+        </section>
+
+        <section id="tarefas-app" class="superficie-paleta p-6 rounded-lg shadow-lg" aria-labelledby="titulo-lista-tarefas">
+
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+
+                <h2 id="titulo-lista-tarefas" class="text-2xl font-bold">
+                    Minhas tarefas
+                </h2>
+
+                <button type="button" id="btn-atualizar-tarefas" class="botao-secundario-paleta font-semibold py-2 px-4 rounded" aria-controls="lista-tarefas">
+                    Atualizar lista
+                </button>
+
             </div>
 
-            <p id="tarefas-feedback" class="hidden mt-4 p-3 rounded font-semibold" role="status" aria-live="polite">
+            <p id="lista-tarefas-feedback" class="feedback-lista-sticky hidden mb-4 p-3 rounded font-semibold" role="status" aria-live="polite"></p>
+
+            <p id="tarefas-carregando" class="texto-secundario-paleta text-center py-8" role="status">
+                Carregando tarefas...
             </p>
+
+            <p id="tarefas-vazias" class="texto-secundario-paleta text-center py-8 hidden">
+                Nenhuma tarefa cadastrada.
+            </p>
+
+            <ul id="lista-tarefas" class="lista-tarefas hidden" aria-label="Tarefas cadastradas">
+            </ul>
+
         </section>
     </main>
 
