@@ -630,6 +630,162 @@ html.daltonico .opcao-fonte:has(.radio-fonte:checked) {
     opacity: 0.65;
 }
 
+.solucao-card {
+    padding: 1.5rem;
+
+    background-color: var(--cor-superficie);
+    color: var(--cor-texto);
+
+    border: 1px solid color-mix(
+        in srgb,
+        var(--cor-texto) 22%,
+        transparent
+    );
+
+    border-radius: 0.75rem;
+
+    box-shadow:
+        0 0.25rem 0.75rem rgba(0, 0, 0, 0.08);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.solucao-card:hover {
+    transform: translateY(-0.25rem);
+    border-color: var(--cor-primaria);
+
+    box-shadow:
+        0 0.75rem 1.5rem rgba(0, 0, 0, 0.12);
+}
+
+.solucao-numero {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 3rem;
+    min-height: 2rem;
+
+    margin-bottom: 1rem;
+    padding: 0.25rem 0.75rem;
+
+    background-color: color-mix(
+        in srgb,
+        var(--cor-primaria) 16%,
+        var(--cor-superficie)
+    );
+
+    color: var(--cor-primaria);
+
+    border: 1px solid var(--cor-primaria);
+    border-radius: 9999px;
+
+    font-weight: 800;
+}
+
+.processo-etapa {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+
+    padding: 1.25rem;
+
+    border: 1px solid color-mix(
+        in srgb,
+        var(--cor-texto) 20%,
+        transparent
+    );
+
+    border-radius: 0.75rem;
+}
+
+.processo-numero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 2.5rem;
+    height: 2.5rem;
+
+    flex-shrink: 0;
+
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto-botao);
+
+    border-radius: 50%;
+
+    font-weight: 800;
+}
+
+.entrega-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.entrega-marcador {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 1.75rem;
+    height: 1.75rem;
+
+    flex-shrink: 0;
+
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto-botao);
+
+    border-radius: 50%;
+
+    font-weight: 800;
+}
+
+.depoimento-card {
+    position: relative;
+    padding: 1.5rem;
+
+    background-color: var(--cor-superficie);
+    color: var(--cor-texto);
+
+    border: 1px solid color-mix(
+        in srgb,
+        var(--cor-texto) 22%,
+        transparent
+    );
+
+    border-radius: 0.75rem;
+
+    box-shadow:
+        0 0.25rem 0.75rem rgba(0, 0, 0, 0.08);
+}
+
+.depoimento-card::before {
+    content: "“";
+
+    display: block;
+    height: 2.5rem;
+
+    color: var(--cor-primaria);
+
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.chamada-solucoes {
+    background-color: color-mix(
+        in srgb,
+        var(--cor-primaria) 12%,
+        var(--cor-superficie)
+    );
+
+    border: 2px solid var(--cor-primaria);
+}
+
 @media (max-width: 640px) {
     .tarefa-visualizacao {
         flex-direction: column;
@@ -651,6 +807,11 @@ html.daltonico .opcao-fonte:has(.radio-fonte:checked) {
 @media (prefers-reduced-motion: reduce) {
     .logos {
         animation: none;
+    }
+
+    .solucao-card {
+        transition: none;
+        transform: none;
     }
 
     body,
