@@ -156,7 +156,7 @@ html[data-paleta="personalizada"] {
     --cor-primaria: var(--personalizada-primaria, #2563eb);
     --cor-primaria-hover: var(--personalizada-primaria-hover, #1d4ed8);
     --cor-texto-botao: var(--personalizada-texto-botao, #ffffff);
-    --cor-controle: var(--personalizada-texto-botao, #ffffff);
+    --cor-controle: var(--personalizada-primaria, #2563eb);
 
     --cor-fundo: var(--personalizada-fundo, #f9fafb);
     --cor-superficie: var(--personalizada-superficie, #ffffff);

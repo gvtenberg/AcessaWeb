@@ -91,6 +91,7 @@ window.AcessaWebAuth = (function () {
             dataType: 'text',
             cache: false,
             crossDomain: true,
+            timeout: 10000,
 
             xhrFields: {
                 withCredentials: true
