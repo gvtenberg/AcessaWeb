@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    const API_URL = 'http://localhost:8080/tarefas'; // Endereço do backend em Spring Boot
+    const API_PATH = '/api/tarefas';
     const LIMITE_TEXTO = 255;
 
     const formulario = $('#form-tarefa');
@@ -16,6 +16,13 @@ $(document).ready(function () {
     const feedbackLista = $('#lista-tarefas-feedback');
 
     if (formulario.length === 0 || listaTarefas.length === 0) {
+        return;
+    }
+
+    if (!window.AcessaWebAuth) {
+        mostrarFeedback(feedbackLista, 'Não foi possível inicializar a autenticação.', 'erro' );
+
+        estadoCarregando.addClass('hidden');
         return;
     }
 
@@ -37,6 +44,7 @@ $(document).ready(function () {
         '[data-acao="editar"]',
         function () {
             const item = $(this).closest('.tarefa-item');
+
             iniciarEdicao(item);
         }
     );
@@ -46,6 +54,7 @@ $(document).ready(function () {
         '[data-acao="cancelar"]',
         function () {
             const item = $(this).closest('.tarefa-item');
+
             cancelarEdicao(item, true);
         }
     );
@@ -55,6 +64,7 @@ $(document).ready(function () {
         '[data-acao="salvar"]',
         function () {
             const item = $(this).closest('.tarefa-item');
+
             atualizarTarefa(item, $(this));
         }
     );
@@ -64,6 +74,7 @@ $(document).ready(function () {
         '[data-acao="excluir"]',
         function () {
             const item = $(this).closest('.tarefa-item');
+
             excluirTarefa(item, $(this));
         }
     );
@@ -83,19 +94,21 @@ $(document).ready(function () {
 
             if (event.key === 'Escape') {
                 event.preventDefault();
+
                 cancelarEdicao(item, true);
             }
         }
     );
 
     atualizarContador();
-    carregarTarefas(true); // Para impedir que lista seja ocultada quando aperta o botão Atualizar lista
+
+    carregarTarefas(true);
 
     function carregarTarefas(primeiraCarga = false) {
         alterarEstadoCarregamento(true, primeiraCarga);
 
-        $.ajax({
-            url: API_URL,
+        AcessaWebAuth.requisicao({
+            url: API_PATH,
             method: 'GET',
             dataType: 'json',
             timeout: 10000,
@@ -105,24 +118,20 @@ $(document).ready(function () {
             },
 
             error: function (xhr) {
+                if (tratarSessaoExpirada(xhr, feedbackLista)) {
+                    return;
+                }
+
                 listaTarefas.addClass('hidden');
                 estadoVazio.addClass('hidden');
 
                 mostrarFeedback(
                     feedbackLista,
-                    obterMensagemErro(
-                        xhr,
-                        'Não foi possível carregar as tarefas.'
-                    ),
-                    'erro'
-                );
+                    obterMensagemErro(xhr, 'Não foi possível carregar as tarefas.'), 'erro');
             },
 
             complete: function () {
-                alterarEstadoCarregamento(
-                    false,
-                    primeiraCarga
-                );
+                alterarEstadoCarregamento(false, primeiraCarga);
             }
         });
     }
@@ -137,41 +146,40 @@ $(document).ready(function () {
 
         alterarBotao(botaoAdicionar, true, 'Adicionando...');
 
-        $.ajax({
-            url: API_URL,
+        AcessaWebAuth.requisicao({
+            url: API_PATH,
             method: 'POST',
+
             contentType: 'application/json; charset=UTF-8',
+
             dataType: 'json',
+
             data: JSON.stringify({texto: texto}),
+
             timeout: 10000,
 
             success: function () {
                 campoNovaTarefa.val('');
+
                 atualizarContador();
 
                 mostrarFeedback(feedbackNovaTarefa, 'Tarefa adicionada com sucesso.', 'sucesso');
 
-                carregarTarefas();
+                carregarTarefas(false);
+
                 campoNovaTarefa.trigger('focus');
             },
 
             error: function (xhr) {
-                mostrarFeedback(
-                    feedbackNovaTarefa,
-                    obterMensagemErro(
-                        xhr,
-                        'Não foi possível adicionar a tarefa.'
-                    ),
-                    'erro'
-                );
+                if (tratarSessaoExpirada(xhr, feedbackNovaTarefa)) {
+                    return;
+                }
+
+                mostrarFeedback(feedbackNovaTarefa, obterMensagemErro(xhr, 'Não foi possível adicionar a tarefa.'), 'erro');
             },
 
             complete: function () {
-                alterarBotao(
-                    botaoAdicionar,
-                    false,
-                    'Adicionar tarefa'
-                );
+                alterarBotao(botaoAdicionar, false, 'Adicionar tarefa');
             }
         });
     }
@@ -190,14 +198,18 @@ $(document).ready(function () {
             return;
         }
 
-        alterarBotao(botaoSalvar, true, 'Salvando...' );
+        alterarBotao(botaoSalvar, true, 'Salvando...');
 
-        $.ajax({
-            url: `${API_URL}/${id}`,
+        AcessaWebAuth.requisicao({
+            url: `${API_PATH}/${id}`,
             method: 'PUT',
+
             contentType: 'application/json; charset=UTF-8',
+
             dataType: 'json',
+
             data: JSON.stringify({texto: texto}),
+
             timeout: 10000,
 
             success: function (tarefaAtualizada) {
@@ -222,29 +234,24 @@ $(document).ready(function () {
             },
 
             error: function (xhr) {
-                mostrarFeedback(
-                    feedbackItem,
-                    obterMensagemErro(
-                        xhr,
-                        'Não foi possível atualizar a tarefa.'
-                    ),
-                    'erro'
-                );
+                if (tratarSessaoExpirada(xhr, feedbackItem)) {
+                    return;
+                }
+
+                mostrarFeedback(feedbackItem, obterMensagemErro(xhr, 'Não foi possível atualizar a tarefa.'), 'erro');
             },
 
             complete: function () {
-                alterarBotao(
-                    botaoSalvar,
-                    false,
-                    'Salvar'
-                );
+                alterarBotao(botaoSalvar, false, 'Salvar');
             }
         });
     }
 
     function excluirTarefa(item, botaoExcluir) {
         const id = item.data('id');
+
         const texto = item.find('.tarefa-texto').text();
+
         const feedbackItem = item.find('.tarefa-feedback-inline');
 
         const confirmou = window.confirm(
@@ -257,8 +264,8 @@ $(document).ready(function () {
 
         alterarBotao(botaoExcluir, true, 'Excluindo...');
 
-        $.ajax({
-            url: `${API_URL}/${id}`,
+        AcessaWebAuth.requisicao({
+            url: `${API_PATH}/${id}`,
             method: 'DELETE',
             timeout: 10000,
 
@@ -267,14 +274,10 @@ $(document).ready(function () {
 
                 const itemAnterior = item.prev('.tarefa-item');
 
-                item.find('.tarefa-visualizacao, .tarefa-edicao')
+                item.find('.tarefa-visualizacao, ' + '.tarefa-edicao')
                     .prop('hidden', true);
 
-                mostrarFeedback(
-                    feedbackItem,
-                    'Tarefa excluída com sucesso.',
-                    'sucesso'
-                );
+                mostrarFeedback(feedbackItem, 'Tarefa excluída com sucesso.', 'sucesso');
 
                 feedbackItem.trigger('focus');
 
@@ -295,14 +298,11 @@ $(document).ready(function () {
             },
 
             error: function (xhr) {
-                mostrarFeedback(
-                    feedbackItem,
-                    obterMensagemErro(
-                        xhr,
-                        'Não foi possível excluir a tarefa.'
-                    ),
-                    'erro'
-                );
+                if (tratarSessaoExpirada(xhr, feedbackItem)) {
+                    return;
+                }
+
+                mostrarFeedback(feedbackItem, obterMensagemErro(xhr, 'Não foi possível excluir a tarefa.'), 'erro');
 
                 alterarBotao(botaoExcluir, false, 'Excluir');
             }
@@ -330,8 +330,7 @@ $(document).ready(function () {
 
     function criarElementoTarefa(tarefa) {
         const item = $('<li>', {
-            class: 'tarefa-item',
-            'data-id': tarefa.id
+            class: 'tarefa-item', 'data-id': tarefa.id
         });
 
         const visualizacao = $('<div>', {
@@ -358,17 +357,21 @@ $(document).ready(function () {
 
         const botaoEditar = $('<button>', {
             type: 'button',
-            class: 'botao-tarefa botao-tarefa-secundario',
-            text: 'Editar',
-            'data-acao': 'editar',
+
+            class: 'botao-tarefa ' + 'botao-tarefa-secundario',
+
+            text: 'Editar', 'data-acao': 'editar',
+
             'aria-label': `Editar tarefa: ${tarefa.texto}`
         });
 
         const botaoExcluir = $('<button>', {
             type: 'button',
-            class: 'botao-tarefa botao-tarefa-perigo',
-            text: 'Excluir',
-            'data-acao': 'excluir',
+
+            class: 'botao-tarefa ' + 'botao-tarefa-perigo',
+
+            text: 'Excluir', 'data-acao': 'excluir',
+
             'aria-label': `Excluir tarefa: ${tarefa.texto}`
         });
 
@@ -383,9 +386,11 @@ $(document).ready(function () {
 
         const campoEdicao = $('<input>', {
             type: 'text',
-            class: 'campo-paleta tarefa-edit-input',
+            class: 'campo-paleta ' + 'tarefa-edit-input',
+
             maxlength: LIMITE_TEXTO,
             value: tarefa.texto,
+
             'aria-label': `Editar tarefa: ${tarefa.texto}`
         });
 
@@ -395,23 +400,24 @@ $(document).ready(function () {
 
         const botaoSalvar = $('<button>', {
             type: 'button',
-            class: 'botao-tarefa botao-tarefa-primario',
-            text: 'Salvar',
-            'data-acao': 'salvar'
+
+            class: 'botao-tarefa ' + 'botao-tarefa-primario',
+
+            text: 'Salvar', 'data-acao': 'salvar'
         });
 
         const botaoCancelar = $('<button>', {
             type: 'button',
-            class: 'botao-tarefa botao-tarefa-secundario',
-            text: 'Cancelar',
-            'data-acao': 'cancelar'
+
+            class: 'botao-tarefa ' + 'botao-tarefa-secundario',
+
+            text: 'Cancelar', 'data-acao': 'cancelar'
         });
 
         const feedbackItem = $('<p>', {
             class: 'tarefa-feedback-inline hidden',
-            role: 'status',
-            'aria-live': 'polite',
-            tabindex: '-1'
+
+            role: 'status', 'aria-live': 'polite', tabindex: '-1'
         });
 
         botoesEdicao.append(botaoSalvar, botaoCancelar);
@@ -429,7 +435,8 @@ $(document).ready(function () {
                         cancelarEdicao($(this), false);
                     });
 
-        const textoAtual = item.find('.tarefa-texto').text();
+        const textoAtual = item.find('.tarefa-texto')
+                               .text();
 
         const feedbackItem = item.find('.tarefa-feedback-inline');
 
@@ -478,7 +485,8 @@ $(document).ready(function () {
         if (texto.length > LIMITE_TEXTO) {
             mostrarFeedback(
                 feedbackAlvo,
-                `A tarefa deve possuir no máximo ${LIMITE_TEXTO} caracteres.`,
+                'A tarefa deve possuir no máximo ' +
+                `${LIMITE_TEXTO} caracteres.`,
                 'erro'
             );
 
@@ -506,12 +514,8 @@ $(document).ready(function () {
     }
 
     function criarTextoData(tarefa) {
-        if (tarefa.updatedAt) {
-            return `Atualizada em ${formatarData(tarefa.updatedAt)}`;
-        }
-
-        if (tarefa.createdAt) {
-            return `Criada em ${formatarData(tarefa.createdAt)}`;
+        if (tarefa.dataCriacao) {
+            return ('Criada em ' + formatarData(tarefa.dataCriacao));
         }
 
         return 'Data não informada';
@@ -531,7 +535,7 @@ $(document).ready(function () {
             return valor;
         }
 
-        return `${data[2]}/${data[1]}/${data[0]} às ${horario}`;
+        return (`${data[2]}/${data[1]}/${data[0]}` + ` às ${horario}`);
     }
 
     function alterarEstadoCarregamento(carregando, primeiraCarga) {
@@ -567,15 +571,29 @@ $(document).ready(function () {
 
         clearTimeout(temporizadorAnterior);
 
-        alvo.removeClass('hidden feedback-success feedback-error')
+        alvo.removeClass('hidden ' + 'feedback-success ' + 'feedback-error')
             .addClass(tipo === 'sucesso' ? 'feedback-success' : 'feedback-error')
             .text(mensagem);
 
         const temporizadorAtual = setTimeout(function () {
-            alvo.addClass('hidden');
-        }, 8000);
+                alvo.addClass('hidden');
+            }, 8000);
 
         alvo.data('temporizador-feedback', temporizadorAtual);
+    }
+
+    function tratarSessaoExpirada(xhr, feedbackAlvo) {
+        if (xhr.status !== 401) {
+            return false;
+        }
+
+        mostrarFeedback(feedbackAlvo, 'Sua sessão expirou. ' + 'Redirecionando para o login...', 'erro');
+
+        setTimeout(function () {
+            window.location.replace('login.html');
+        }, 1000);
+
+        return true;
     }
 
     function obterMensagemErro(xhr, mensagemPadrao) {
@@ -583,6 +601,14 @@ $(document).ready(function () {
             return (
                 'Não foi possível conectar ao servidor. ' +
                 'Verifique se o Spring Boot está em execução.'
+            );
+        }
+
+        if (xhr.status === 403) {
+            return (
+                'Não foi possível validar a segurança ' +
+                'da solicitação. Atualize a página e ' +
+                'tente novamente.'
             );
         }
 

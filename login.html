@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="img/icon.svg">
-    <title>AcessaWeb - Entrar</title>
+    <title>AcessaWeb - Conta</title>
 
     <script src="scripts/carrega-tema.js"></script>
 
@@ -15,6 +15,8 @@
     <link href="https://fonts.cdnfonts.com/css/opendyslexic" rel="stylesheet">
 
     <script src="scripts/app.js" defer></script>
+    <script src="scripts/autenticacao.js" defer></script>
+    <script src="scripts/login.js" defer></script>
     <script src="scripts/menu.js" defer></script>
     <script src="scripts/componentes.js" defer></script>
 
@@ -28,11 +30,11 @@
     <main class="flex-grow max-w-5xl mx-auto w-full px-4 py-12">
         <section class="text-center mb-10">
             <h1 class="text-4xl font-extrabold mb-4">
-                Entrar
+                Conta
             </h1>
 
             <p class="texto-secundario-paleta text-lg max-w-3xl mx-auto">
-                Acesse sua conta para visualizar e gerenciar suas tarefas.
+                Entre para acessar suas tarefas ou consulte o estado da sessão atualmente ativa.
             </p>
         </section>
 
@@ -42,14 +44,101 @@
                 Acesso à conta
             </h2>
 
-            <div id="login-app">
-                <p class="texto-secundario-paleta">
-                    O formulário de autenticação será carregado nesta área.
+            <p id="estado-sessao" class="texto-secundario-paleta" role="status" aria-live="polite">
+                Verificando sessão...
+            </p>
+
+            <!-- Área exibida quando não existe uma sessão autenticada -->
+            <div id="area-login" class="hidden">
+
+                <form id="form-login" class="space-y-4">
+
+                    <div>
+                        <label for="login-usuario" class="block mb-1 font-medium">
+                            Usuário
+                        </label>
+
+                        <input
+                            type="text" id="login-usuario" name="username" class="campo-paleta w-full p-3 rounded"
+                            placeholder="Digite seu usuário" autocomplete="username" aria-describedby="login-feedback" required>
+                    </div>
+
+                    <div>
+                        <label for="login-senha" class="block mb-1 font-medium">
+                            Senha
+                        </label>
+
+                        <input type="password" id="login-senha" name="password" class="campo-paleta w-full p-3 rounded"
+                            placeholder="Digite sua senha" autocomplete="current-password" aria-describedby="login-feedback" required>
+                    </div>
+
+                    <button type="submit" id="btn-login" class="botao-paleta w-full font-bold py-3 px-4 rounded">
+                        Entrar
+                    </button>
+
+                </form>
+
+                <p class="texto-secundario-paleta text-sm mt-4">
+                    Usuário de demonstração:
+                    <strong>admin</strong>.
+                    Senha:
+                    <strong>123456</strong>.
                 </p>
+
+            </div>
+
+            <!-- Área exibida quando existe uma sessão autenticada -->
+            <div id="area-conta" class="hidden">
+
+                <h3 class="text-xl font-bold mb-2">
+                    Sessão ativa
+                </h3>
+
+                <p class="texto-secundario-paleta">
+                    Você está autenticado e pode acessar as tarefas vinculadas à sua conta.
+                </p>
+
+                <dl class="mt-5 space-y-3">
+
+                    <div class="borda-paleta border rounded p-3">
+                        <dt class="texto-secundario-paleta text-sm">
+                            Usuário
+                        </dt>
+
+                        <dd id="conta-usuario" class="font-bold mt-1">
+                            Usuário autenticado
+                        </dd>
+                    </div>
+
+                    <div class="borda-paleta border rounded p-3">
+                        <dt class="texto-secundario-paleta text-sm">
+                            Estado da sessão
+                        </dt>
+
+                        <dd class="font-bold mt-1">
+                            Autenticada
+                        </dd>
+                    </div>
+
+                </dl>
+
+                <div class="flex flex-col sm:flex-row gap-3 mt-6">
+
+                    <a href="tarefas.html" class="botao-paleta flex-1 text-center font-bold py-3 px-4 rounded">
+                        Abrir tarefas
+                    </a>
+
+                    <button type="button" id="btn-logout" class="botao-secundario-paleta flex-1 font-bold py-3 px-4 rounded">
+                        Sair da conta
+                    </button>
+
+                </div>
+
             </div>
 
             <p id="login-feedback" class="hidden mt-4 p-3 rounded font-semibold" role="status" aria-live="polite">
             </p>
+
         </section>
     </main>
 
