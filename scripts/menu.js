@@ -83,11 +83,7 @@ function iniciarMenuResponsivo() {
 
         document.body.style.overflow = '';
 
-        if (
-            devolverFoco &&
-            estavaAberto &&
-            window.innerWidth < larguraDesktop
-        ) {
+        if (devolverFoco && estavaAberto && window.innerWidth < larguraDesktop) {
             botaoAbrir.focus();
         }
 
@@ -150,15 +146,13 @@ function iniciarMenuResponsivo() {
 }
 
 function destacarPaginaAtual() {
-    let paginaAtual =
-        window.location.pathname.split('/').pop();
+    let paginaAtual = window.location.pathname.split('/').pop();
 
     if (paginaAtual === '') {
         paginaAtual = 'index.html';
     }
 
-    const links =
-        document.querySelectorAll('[data-menu-link]');
+    const links = document.querySelectorAll('[data-menu-link]');
 
     links.forEach(function (link) {
         const destino = link.getAttribute('href');

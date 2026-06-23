@@ -328,8 +328,7 @@ $(document).ready(function () {
 
         const vermelho = parseInt(hexadecimal.substring(0, 2), 16);
 
-        const verde =
-            parseInt(hexadecimal.substring(2, 4), 16);
+        const verde = parseInt(hexadecimal.substring(2, 4), 16);
 
         const azul = parseInt(hexadecimal.substring(4, 6), 16);
 

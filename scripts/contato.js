@@ -33,7 +33,7 @@ $(document).ready(function () {
         clearTimeout(temporizadorFeedback);
         
         feedbackDiv.addClass('hidden')
-                    .removeClass('feedback-success feedback-error');
+                   .removeClass('feedback-success feedback-error');
 
         const dadosForm = {
             title: $('#nome').val(),
@@ -56,8 +56,8 @@ $(document).ready(function () {
                 console.log('Resposta do servidor: ', response);
 
                 feedbackDiv.removeClass('hidden feedback-error')
-                            .addClass('feedback-success')
-                            .html(`Mensagem enviada com sucesso! Entraremos em contato em breve.<br>Número de protocolo: ${response.id}`);
+                           .addClass('feedback-success')
+                           .html(`Mensagem enviada com sucesso! Entraremos em contato em breve.<br>Número de protocolo: ${response.id}`);
                 
                 formulario[0].reset(); // Limpa o formulário
 
@@ -68,8 +68,8 @@ $(document).ready(function () {
 
             error: function() {
                 feedbackDiv.removeClass('hidden feedback-success')
-                            .addClass('feedback-error')
-                            .text('Erro ao enviar mensagem. Por favor, tente novamente');
+                           .addClass('feedback-error')
+                           .text('Erro ao enviar mensagem. Por favor, tente novamente');
                 esconderFeedback();
             },
 

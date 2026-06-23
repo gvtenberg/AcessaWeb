@@ -786,7 +786,31 @@ html.daltonico .opcao-fonte:has(.radio-fonte:checked) {
     border: 2px solid var(--cor-primaria);
 }
 
-@media (max-width: 640px) {
+#solicitar-auditoria {
+    scroll-margin-top: 6rem;
+}
+
+/* Breakpoint abaixo de 1200px exigido na tarefa */
+@media (max-width: 1199px) {
+    .grade-modos,
+    .grade-paletas,
+    .grade-solucoes {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grade-processo,
+    .solucoes-entregas,
+    .grade-depoimentos {
+        grid-template-columns: 1fr;
+    }
+
+    .linha-nova-tarefa,
+    .cabecalho-lista-tarefas {
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+    }
+
     .tarefa-visualizacao {
         flex-direction: column;
     }
@@ -798,9 +822,81 @@ html.daltonico .opcao-fonte:has(.radio-fonte:checked) {
     .tarefa-acoes .botao-tarefa {
         flex: 1;
     }
+}
 
+/* Breakpoint abaixo de 600px exigido pela pela tarefa */
+@media (max-width: 599px) {
+    main {
+        padding: 1.5rem 0.75rem;
+    }
+
+    main h1 {
+        font-size: 1.875rem;
+        line-height: 1.2;
+    }
+
+    main h2 {
+        font-size: 1.5rem;
+        line-height: 1.25;
+    }
+
+    main > section.superficie-paleta,
+    .solucao-card,
+    .depoimento-card,
+    .chamada-solucoes {
+        padding: 1rem;
+        border-radius: 0.375rem;
+    }
+
+    .grade-modos,
+    .grade-paletas,
+    .grade-cores-personalizadas,
+    .grade-fontes,
+    .grade-solucoes {
+        grid-template-columns: 1fr;
+    }
+
+    .grupo-tamanhos {
+        flex-direction: column;
+    }
+
+    .grupo-tamanhos .tamanho-fonte {
+        width: 100%;
+    }
+
+    .tarefa-acoes,
+    .tarefa-botoes-edicao {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .tarefa-acoes .botao-tarefa,
     .tarefa-botoes-edicao .botao-tarefa {
-        flex: 1;
+        width: 100%;
+        flex: none;
+    }
+
+    #btn-adicionar-tarefa,
+    #btn-atualizar-tarefas,
+    #btn-aplicar-paleta,
+    #btn-resetar-personalizacao,
+    #btn-lgpd {
+        width: 100%;
+    }
+
+    .processo-etapa {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+
+    .chamada-solucoes {
+        border-width: 1px;
+    }
+
+    .logos {
+        gap: 2rem;
+        padding-right: 2rem;
     }
 }
 

@@ -47,7 +47,7 @@
                     Selecione uma paleta pronta para aplicá-la imediatamente em todo o site.
                 </p>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="grade-paletas grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
                     <button type="button" data-paleta="azul" aria-pressed="false"
                         class="paleta-opcao borda-paleta border-2 rounded-lg p-4 text-left hover:shadow-md transition-shadow">
@@ -73,8 +73,7 @@
                         </span>
                     </button>
 
-                    <button
-                        type="button" data-paleta="roxo" aria-pressed="false"
+                    <button type="button" data-paleta="roxo" aria-pressed="false"
                         class="paleta-opcao borda-paleta border-2 rounded-lg p-4 text-left hover:shadow-md transition-shadow">
 
                         <span class="block font-bold mb-3">Roxo</span>
@@ -86,8 +85,7 @@
                         </span>
                     </button>
 
-                    <button
-                        type="button" data-paleta="ambar" aria-pressed="false"
+                    <button type="button" data-paleta="ambar" aria-pressed="false"
                         class="paleta-opcao borda-paleta border-2 rounded-lg p-4 text-left hover:shadow-md transition-shadow">
 
                         <span class="block font-bold mb-3">Âmbar</span>
@@ -99,8 +97,7 @@
                         </span>
                     </button>
 
-                    <button
-                        type="button" data-paleta="escura" aria-pressed="false"
+                    <button type="button" data-paleta="escura" aria-pressed="false"
                         class="paleta-opcao borda-paleta border-2 rounded-lg p-4 text-left hover:shadow-md transition-shadow">
 
                         <span class="block font-bold mb-3">Escura</span>
@@ -112,9 +109,8 @@
                         </span>
                     </button>
 
-                    <button
-                        type="button" data-paleta="alto-contraste" aria-pressed="false"
-                                                class="paleta-opcao borda-paleta border-2 rounded-lg p-4 text-left hover:shadow-md transition-shadow">
+                    <button type="button" data-paleta="alto-contraste" aria-pressed="false"
+                        class="paleta-opcao borda-paleta border-2 rounded-lg p-4 text-left hover:shadow-md transition-shadow">
 
                         <span class="block font-bold mb-3">Alto contraste</span>
 
@@ -141,15 +137,14 @@
                     para salvar suas escolhas.
                 </p>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="grade-cores-personalizadas grid grid-cols-1 sm:grid-cols-2 gap-6">
 
                     <div>
                         <label for="cor-primaria" class="block font-medium mb-2">
                             Cor primária
                         </label>
 
-                        <input type="color" id="cor-primaria" value="#2563eb"
-                            class="borda-paleta w-full h-12 cursor-pointer rounded border">
+                        <input type="color" id="cor-primaria" value="#2563eb" class="borda-paleta w-full h-12 cursor-pointer rounded border">
                     </div>
 
                     <div>
@@ -157,8 +152,7 @@
                             Cor de fundo
                         </label>
 
-                        <input type="color" id="cor-fundo" value="#f9fafb"
-                            class="borda-paleta w-full h-12 cursor-pointer rounded border">
+                        <input type="color" id="cor-fundo" value="#f9fafb" class="borda-paleta w-full h-12 cursor-pointer rounded border">
                     </div>
 
                     <div>
@@ -166,8 +160,7 @@
                             Cor das superfícies
                         </label>
 
-                        <input type="color" id="cor-superficie" value="#ffffff"
-                            class="borda-paleta w-full h-12 cursor-pointer rounded border">
+                        <input type="color" id="cor-superficie" value="#ffffff" class="borda-paleta w-full h-12 cursor-pointer rounded border">
                     </div>
 
                     <div>
@@ -175,14 +168,12 @@
                             Cor do texto
                         </label>
 
-                        <input type="color" id="cor-texto" value="#111827"
-                            class="borda-paleta w-full h-12 cursor-pointer rounded border">
+                        <input type="color" id="cor-texto" value="#111827" class="borda-paleta w-full h-12 cursor-pointer rounded border">
                     </div>
 
                 </div>
 
-                <button type="button" id="btn-aplicar-paleta"
-                    class="botao-paleta mt-6 font-bold py-3 px-6 rounded">
+                <button type="button" id="btn-aplicar-paleta" class="botao-paleta mt-6 font-bold py-3 px-6 rounded">
                     Aplicar paleta personalizada
                 </button>
 
@@ -200,7 +191,7 @@
                     A fonte selecionada será aplicada e salva automaticamente.
                 </p>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="grade-fontes grid grid-cols-1 sm:grid-cols-3 gap-4">
 
                     <label class="opcao-fonte borda-paleta border-2 rounded-lg p-4 cursor-pointer">
                         <input type="radio" name="fonte" value="sans" class="radio-fonte">
@@ -232,7 +223,7 @@
                     O tamanho escolhido será aplicado e salvo automaticamente.
                 </p>
 
-                <div class="flex flex-wrap gap-3">
+                <div class="grupo-tamanhos flex flex-wrap gap-3">
 
                     <button type="button" aria-pressed="false" class="tamanho-fonte borda-paleta text-xs px-4 py-2 border-2 rounded" data-tamanho="pequeno">
                         Pequeno

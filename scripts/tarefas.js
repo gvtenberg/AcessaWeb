@@ -77,8 +77,7 @@ $(document).ready(function () {
             if (event.key === 'Enter') {
                 event.preventDefault();
 
-                item
-                    .find('[data-acao="salvar"]')
+                item.find('[data-acao="salvar"]')
                     .trigger('click');
             }
 
@@ -93,10 +92,7 @@ $(document).ready(function () {
     carregarTarefas(true); // Para impedir que lista seja ocultada quando aperta o botão Atualizar lista
 
     function carregarTarefas(primeiraCarga = false) {
-        alterarEstadoCarregamento(
-            true,
-            primeiraCarga
-        );
+        alterarEstadoCarregamento(true, primeiraCarga);
 
         $.ajax({
             url: API_URL,
@@ -139,31 +135,21 @@ $(document).ready(function () {
             return;
         }
 
-        alterarBotao(
-            botaoAdicionar,
-            true,
-            'Adicionando...'
-        );
+        alterarBotao(botaoAdicionar, true, 'Adicionando...');
 
         $.ajax({
             url: API_URL,
             method: 'POST',
             contentType: 'application/json; charset=UTF-8',
             dataType: 'json',
-            data: JSON.stringify({
-                texto: texto
-            }),
+            data: JSON.stringify({texto: texto}),
             timeout: 10000,
 
             success: function () {
                 campoNovaTarefa.val('');
                 atualizarContador();
 
-                mostrarFeedback(
-                    feedbackNovaTarefa,
-                    'Tarefa adicionada com sucesso.',
-                    'sucesso'
-                );
+                mostrarFeedback(feedbackNovaTarefa, 'Tarefa adicionada com sucesso.', 'sucesso');
 
                 carregarTarefas();
                 campoNovaTarefa.trigger('focus');
@@ -193,11 +179,9 @@ $(document).ready(function () {
     function atualizarTarefa(item, botaoSalvar) {
         const id = item.data('id');
 
-        const campoEdicao =
-            item.find('.tarefa-edit-input');
+        const campoEdicao = item.find('.tarefa-edit-input');
 
-        const feedbackItem =
-            item.find('.tarefa-feedback-inline');
+        const feedbackItem = item.find('.tarefa-feedback-inline');
 
         const texto = campoEdicao.val().trim();
 
@@ -206,61 +190,35 @@ $(document).ready(function () {
             return;
         }
 
-        alterarBotao(
-            botaoSalvar,
-            true,
-            'Salvando...'
-        );
+        alterarBotao(botaoSalvar, true, 'Salvando...' );
 
         $.ajax({
             url: `${API_URL}/${id}`,
             method: 'PUT',
             contentType: 'application/json; charset=UTF-8',
             dataType: 'json',
-            data: JSON.stringify({
-                texto: texto
-            }),
+            data: JSON.stringify({texto: texto}),
             timeout: 10000,
 
             success: function (tarefaAtualizada) {
-                item
-                    .find('.tarefa-texto')
+                item.find('.tarefa-texto')
                     .text(tarefaAtualizada.texto);
 
-                item
-                    .find('.tarefa-data')
-                    .text(
-                        criarTextoData(tarefaAtualizada)
-                    );
+                item.find('.tarefa-data')
+                    .text(criarTextoData(tarefaAtualizada));
 
-                campoEdicao
-                    .val(tarefaAtualizada.texto)
-                    .attr(
-                        'aria-label',
-                        `Editar tarefa: ${tarefaAtualizada.texto}`
-                    );
+                campoEdicao.val(tarefaAtualizada.texto)
+                           .attr('aria-label', `Editar tarefa: ${tarefaAtualizada.texto}`);
 
-                item
-                    .find('[data-acao="editar"]')
-                    .attr(
-                        'aria-label',
-                        `Editar tarefa: ${tarefaAtualizada.texto}`
-                    );
+                item.find('[data-acao="editar"]')
+                    .attr('aria-label', `Editar tarefa: ${tarefaAtualizada.texto}`);
 
-                item
-                    .find('[data-acao="excluir"]')
-                    .attr(
-                        'aria-label',
-                        `Excluir tarefa: ${tarefaAtualizada.texto}`
-                    );
+                item.find('[data-acao="excluir"]')
+                    .attr('aria-label', `Excluir tarefa: ${tarefaAtualizada.texto}`);
 
                 cancelarEdicao(item, true);
 
-                mostrarFeedback(
-                    feedbackItem,
-                    'Tarefa atualizada com sucesso.',
-                    'sucesso'
-                );
+                mostrarFeedback(feedbackItem, 'Tarefa atualizada com sucesso.', 'sucesso');
             },
 
             error: function (xhr) {
@@ -297,11 +255,7 @@ $(document).ready(function () {
             return;
         }
 
-        alterarBotao(
-            botaoExcluir,
-            true,
-            'Excluindo...'
-        );
+        alterarBotao(botaoExcluir, true, 'Excluindo...');
 
         $.ajax({
             url: `${API_URL}/${id}`,
@@ -309,18 +263,11 @@ $(document).ready(function () {
             timeout: 10000,
 
             success: function () {
-                const proximoItem =
-                    item.next('.tarefa-item');
+                const proximoItem = item.next('.tarefa-item');
 
-                const itemAnterior =
-                    item.prev('.tarefa-item');
+                const itemAnterior = item.prev('.tarefa-item');
 
-                /*
-                * Esconde o conteúdo da tarefa, mas mantém o item
-                * temporariamente no mesmo local para mostrar o feedback.
-                */
-                item
-                    .find('.tarefa-visualizacao, .tarefa-edicao')
+                item.find('.tarefa-visualizacao, .tarefa-edicao')
                     .prop('hidden', true);
 
                 mostrarFeedback(
@@ -336,15 +283,11 @@ $(document).ready(function () {
 
                     verificarListaVazia();
 
-                    const destinoFoco =
-                        proximoItem.length > 0
-                            ? proximoItem
-                            : itemAnterior;
+                    const destinoFoco = proximoItem.length > 0 ? proximoItem : itemAnterior;
 
                     if (destinoFoco.length > 0) {
-                        destinoFoco
-                            .find('[data-acao="editar"]')
-                            .trigger('focus');
+                        destinoFoco.find('[data-acao="editar"]')
+                                   .trigger('focus');
                     } else {
                         botaoAtualizar.trigger('focus');
                     }
@@ -361,11 +304,7 @@ $(document).ready(function () {
                     'erro'
                 );
 
-                alterarBotao(
-                    botaoExcluir,
-                    false,
-                    'Excluir'
-                );
+                alterarBotao(botaoExcluir, false, 'Excluir');
             }
         });
     }
@@ -475,76 +414,52 @@ $(document).ready(function () {
             tabindex: '-1'
         });
 
-        botoesEdicao.append(
-            botaoSalvar,
-            botaoCancelar
-        );
+        botoesEdicao.append(botaoSalvar, botaoCancelar);
 
-        edicao.append(
-            campoEdicao,
-            botoesEdicao
-        );
+        edicao.append(campoEdicao, botoesEdicao);
 
-        item.append(
-            visualizacao,
-            edicao,
-            feedbackItem
-        );
+        item.append(visualizacao, edicao, feedbackItem);
 
         return item;
     }
 
     function iniciarEdicao(item) {
-        listaTarefas
-            .find('.tarefa-item')
-            .each(function () {
-                cancelarEdicao($(this), false);
-            });
+        listaTarefas.find('.tarefa-item')
+                    .each(function () {
+                        cancelarEdicao($(this), false);
+                    });
 
-        const textoAtual =
-            item.find('.tarefa-texto').text();
+        const textoAtual = item.find('.tarefa-texto').text();
 
-        const feedbackItem =
-            item.find('.tarefa-feedback-inline');
+        const feedbackItem = item.find('.tarefa-feedback-inline');
 
-        clearTimeout(
-            feedbackItem.data('temporizador-feedback')
-        );
+        clearTimeout(feedbackItem.data('temporizador-feedback'));
 
-        feedbackItem
-            .addClass('hidden')
-            .text('');
+        feedbackItem.addClass('hidden').text('');
 
-        item
-            .find('.tarefa-edit-input')
+        item.find('.tarefa-edit-input')
             .val(textoAtual);
 
-        item
-            .find('.tarefa-visualizacao')
+        item.find('.tarefa-visualizacao')
             .prop('hidden', true);
 
-        item
-            .find('.tarefa-edicao')
+        item.find('.tarefa-edicao')
             .prop('hidden', false);
 
-        item
-            .find('.tarefa-edit-input')
+        item.find('.tarefa-edit-input')
             .trigger('focus')
             .trigger('select');
     }
 
     function cancelarEdicao(item, devolverFoco) {
-        item
-            .find('.tarefa-edicao')
+        item.find('.tarefa-edicao')
             .prop('hidden', true);
 
-        item
-            .find('.tarefa-visualizacao')
+        item.find('.tarefa-visualizacao')
             .prop('hidden', false);
 
         if (devolverFoco) {
-            item
-                .find('[data-acao="editar"]')
+            item.find('[data-acao="editar"]')
                 .trigger('focus');
         }
     }
@@ -581,20 +496,13 @@ $(document).ready(function () {
     }
 
     function atualizarContador() {
-        const tamanhoAtual =
-            campoNovaTarefa.val().length;
+        const tamanhoAtual = campoNovaTarefa.val().length;
 
-        const restantes =
-            LIMITE_TEXTO - tamanhoAtual;
+        const restantes = LIMITE_TEXTO - tamanhoAtual;
 
-        contador.text(
-            `${restantes} caracteres restantes`
-        );
+        contador.text(`${restantes} caracteres restantes`);
 
-        contador.toggleClass(
-            'contador-alerta',
-            restantes < 30
-        );
+        contador.toggleClass('contador-alerta', restantes < 30);
     }
 
     function criarTextoData(tarefa) {
@@ -629,61 +537,45 @@ $(document).ready(function () {
     function alterarEstadoCarregamento(carregando, primeiraCarga) {
         if (carregando) {
             if (primeiraCarga) {
-                estadoCarregando
-                    .removeClass('hidden')
-                    .text('Carregando tarefas...');
+                estadoCarregando.removeClass('hidden')
+                                .text('Carregando tarefas...');
 
                 estadoVazio.addClass('hidden');
                 listaTarefas.addClass('hidden');
             }
 
-            botaoAtualizar
-                .prop('disabled', true)
-                .text('Atualizando...');
+            botaoAtualizar.prop('disabled', true)
+                          .text('Atualizando...');
 
             return;
         }
 
-        estadoCarregando
-            .addClass('hidden')
-            .text('Carregando tarefas...');
+        estadoCarregando.addClass('hidden')
+                        .text('Carregando tarefas...');
 
-        botaoAtualizar
-            .prop('disabled', false)
-            .text('Atualizar lista');
+        botaoAtualizar.prop('disabled', false)
+                      .text('Atualizar lista');
     }
 
     function alterarBotao(botao, desabilitado, texto) {
-        botao
-            .prop('disabled', desabilitado)
-            .text(texto);
+        botao.prop('disabled', desabilitado)
+             .text(texto);
     }
 
     function mostrarFeedback(alvo, mensagem, tipo) {
-        const temporizadorAnterior =
-            alvo.data('temporizador-feedback');
+        const temporizadorAnterior = alvo.data('temporizador-feedback');
 
         clearTimeout(temporizadorAnterior);
 
-        alvo
-            .removeClass(
-                'hidden feedback-success feedback-error'
-            )
-            .addClass(
-                tipo === 'sucesso'
-                    ? 'feedback-success'
-                    : 'feedback-error'
-            )
+        alvo.removeClass('hidden feedback-success feedback-error')
+            .addClass(tipo === 'sucesso' ? 'feedback-success' : 'feedback-error')
             .text(mensagem);
 
         const temporizadorAtual = setTimeout(function () {
             alvo.addClass('hidden');
         }, 8000);
 
-        alvo.data(
-            'temporizador-feedback',
-            temporizadorAtual
-        );
+        alvo.data('temporizador-feedback', temporizadorAtual);
     }
 
     function obterMensagemErro(xhr, mensagemPadrao) {
@@ -694,10 +586,7 @@ $(document).ready(function () {
             );
         }
 
-        if (
-            xhr.responseJSON &&
-            xhr.responseJSON.mensagem
-        ) {
+        if (xhr.responseJSON && xhr.responseJSON.mensagem) {
             return xhr.responseJSON.mensagem;
         }
 

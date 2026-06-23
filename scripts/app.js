@@ -13,9 +13,7 @@ $(document).ready(function () {
     }
 
     function aplicarFonte(fonte) {
-        bodyElement.removeClass(
-            'font-sans font-serif font-dislexia'
-        );
+        bodyElement.removeClass('font-sans font-serif font-dislexia');
 
         if (fonte === 'serif') {
             bodyElement.addClass('font-serif');
@@ -33,8 +31,7 @@ $(document).ready(function () {
             return;
         }
 
-        const lgpdAceito =
-            localStorage.getItem('lgpd_aceito');
+        const lgpdAceito = localStorage.getItem('lgpd_aceito');
 
         if (lgpdAceito === 'sim') {
             banner.addClass('hidden');
@@ -43,32 +40,19 @@ $(document).ready(function () {
         }
     }
 
-    const temaSalvo =
-        localStorage.getItem('tema') || 'claro';
+    const temaSalvo = localStorage.getItem('tema') || 'claro';
 
-    const fonteSalva =
-        localStorage.getItem('fonte') || 'sans';
+    const fonteSalva = localStorage.getItem('fonte') || 'sans';
 
     aplicarTema(temaSalvo);
     aplicarFonte(fonteSalva);
 
-    /*
-     * Executa imediatamente se o banner já existir.
-     */
     atualizarAvisoLgpd();
 
-    /*
-     * Executa novamente quando componentes.js
-     * terminar a injeção.
-     */
-    document.addEventListener(
-        'componentesCarregados',
-        atualizarAvisoLgpd
-    );
+    document.addEventListener('componentesCarregados', atualizarAvisoLgpd);
 
     $(document).on('click', '#btn-tema', function () {
-        const temaAtual =
-            localStorage.getItem('tema') || 'claro';
+        const temaAtual = localStorage.getItem('tema') || 'claro';
 
         let proximoTema;
 
@@ -82,15 +66,11 @@ $(document).ready(function () {
 
         aplicarTema(proximoTema);
 
-        localStorage.setItem(
-            'tema',
-            proximoTema
-        );
+        localStorage.setItem('tema', proximoTema);
     });
 
     $(document).on('click', '#btn-fonte', function () {
-        const fonteAtual =
-            localStorage.getItem('fonte') || 'sans';
+        const fonteAtual = localStorage.getItem('fonte') || 'sans';
 
         let proximaFonte;
 
@@ -104,17 +84,11 @@ $(document).ready(function () {
 
         aplicarFonte(proximaFonte);
 
-        localStorage.setItem(
-            'fonte',
-            proximaFonte
-        );
+        localStorage.setItem('fonte', proximaFonte);
     });
 
     $(document).on('click', '#btn-lgpd', function () {
-        localStorage.setItem(
-            'lgpd_aceito',
-            'sim'
-        );
+        localStorage.setItem('lgpd_aceito', 'sim');
 
         $('#lgpd-banner').addClass('hidden');
     });

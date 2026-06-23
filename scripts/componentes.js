@@ -22,13 +22,7 @@ async function carregarComponentes() {
 
         container.innerHTML = componentesHTML;
 
-        /*
-         * Informa ao app.js que o banner da LGPD
-         * já foi inserido no documento.
-         */
-        document.dispatchEvent(
-            new CustomEvent('componentesCarregados')
-        );
+        document.dispatchEvent(new CustomEvent('componentesCarregados'));
     } catch (erro) {
         console.error(erro);
 
