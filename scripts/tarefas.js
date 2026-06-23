@@ -15,8 +15,6 @@ $(document).ready(function () {
     const feedbackNovaTarefa = $('#nova-tarefa-feedback');
     const feedbackLista = $('#lista-tarefas-feedback');
 
-    //let temporizadorFeedback;
-
     if (formulario.length === 0 || listaTarefas.length === 0) {
         return;
     }
@@ -28,8 +26,10 @@ $(document).ready(function () {
 
     campoNovaTarefa.on('input', atualizarContador);
 
-    botaoAtualizar.on('click', function () {
-        carregarTarefas();
+    botaoAtualizar.on('click', function (event) {
+        event.preventDefault();
+
+        carregarTarefas(false);
     });
 
     listaTarefas.on(
@@ -90,10 +90,13 @@ $(document).ready(function () {
     );
 
     atualizarContador();
-    carregarTarefas();
+    carregarTarefas(true); // Para impedir que lista seja ocultada quando aperta o botão Atualizar lista
 
-    function carregarTarefas() {
-        alterarEstadoCarregamento(true);
+    function carregarTarefas(primeiraCarga = false) {
+        alterarEstadoCarregamento(
+            true,
+            primeiraCarga
+        );
 
         $.ajax({
             url: API_URL,
@@ -120,7 +123,10 @@ $(document).ready(function () {
             },
 
             complete: function () {
-                alterarEstadoCarregamento(false);
+                alterarEstadoCarregamento(
+                    false,
+                    primeiraCarga
+                );
             }
         });
     }
@@ -190,9 +196,12 @@ $(document).ready(function () {
         const campoEdicao =
             item.find('.tarefa-edit-input');
 
+        const feedbackItem =
+            item.find('.tarefa-feedback-inline');
+
         const texto = campoEdicao.val().trim();
 
-        if (!validarTexto(texto, feedbackLista)) {
+        if (!validarTexto(texto, feedbackItem)) {
             campoEdicao.trigger('focus');
             return;
         }
@@ -248,7 +257,7 @@ $(document).ready(function () {
                 cancelarEdicao(item, true);
 
                 mostrarFeedback(
-                    feedbackLista,
+                    feedbackItem,
                     'Tarefa atualizada com sucesso.',
                     'sucesso'
                 );
@@ -256,7 +265,7 @@ $(document).ready(function () {
 
             error: function (xhr) {
                 mostrarFeedback(
-                    feedbackLista,
+                    feedbackItem,
                     obterMensagemErro(
                         xhr,
                         'Não foi possível atualizar a tarefa.'
@@ -278,6 +287,7 @@ $(document).ready(function () {
     function excluirTarefa(item, botaoExcluir) {
         const id = item.data('id');
         const texto = item.find('.tarefa-texto').text();
+        const feedbackItem = item.find('.tarefa-feedback-inline');
 
         const confirmou = window.confirm(
             `Deseja excluir a tarefa "${texto}"?`
@@ -299,22 +309,51 @@ $(document).ready(function () {
             timeout: 10000,
 
             success: function () {
-                item.remove();
+                const proximoItem =
+                    item.next('.tarefa-item');
 
-                verificarListaVazia();
+                const itemAnterior =
+                    item.prev('.tarefa-item');
+
+                /*
+                * Esconde o conteúdo da tarefa, mas mantém o item
+                * temporariamente no mesmo local para mostrar o feedback.
+                */
+                item
+                    .find('.tarefa-visualizacao, .tarefa-edicao')
+                    .prop('hidden', true);
 
                 mostrarFeedback(
-                    feedbackLista,
+                    feedbackItem,
                     'Tarefa excluída com sucesso.',
                     'sucesso'
                 );
 
-                botaoAtualizar.trigger('focus');
+                feedbackItem.trigger('focus');
+
+                setTimeout(function () {
+                    item.remove();
+
+                    verificarListaVazia();
+
+                    const destinoFoco =
+                        proximoItem.length > 0
+                            ? proximoItem
+                            : itemAnterior;
+
+                    if (destinoFoco.length > 0) {
+                        destinoFoco
+                            .find('[data-acao="editar"]')
+                            .trigger('focus');
+                    } else {
+                        botaoAtualizar.trigger('focus');
+                    }
+                }, 1800);
             },
 
             error: function (xhr) {
                 mostrarFeedback(
-                    feedbackLista,
+                    feedbackItem,
                     obterMensagemErro(
                         xhr,
                         'Não foi possível excluir a tarefa.'
@@ -429,6 +468,13 @@ $(document).ready(function () {
             'data-acao': 'cancelar'
         });
 
+        const feedbackItem = $('<p>', {
+            class: 'tarefa-feedback-inline hidden',
+            role: 'status',
+            'aria-live': 'polite',
+            tabindex: '-1'
+        });
+
         botoesEdicao.append(
             botaoSalvar,
             botaoCancelar
@@ -441,7 +487,8 @@ $(document).ready(function () {
 
         item.append(
             visualizacao,
-            edicao
+            edicao,
+            feedbackItem
         );
 
         return item;
@@ -456,6 +503,17 @@ $(document).ready(function () {
 
         const textoAtual =
             item.find('.tarefa-texto').text();
+
+        const feedbackItem =
+            item.find('.tarefa-feedback-inline');
+
+        clearTimeout(
+            feedbackItem.data('temporizador-feedback')
+        );
+
+        feedbackItem
+            .addClass('hidden')
+            .text('');
 
         item
             .find('.tarefa-edit-input')
@@ -568,22 +626,31 @@ $(document).ready(function () {
         return `${data[2]}/${data[1]}/${data[0]} às ${horario}`;
     }
 
-    function alterarEstadoCarregamento(carregando) {
+    function alterarEstadoCarregamento(carregando, primeiraCarga) {
         if (carregando) {
-            estadoCarregando.removeClass('hidden');
-            estadoVazio.addClass('hidden');
-            listaTarefas.addClass('hidden');
+            if (primeiraCarga) {
+                estadoCarregando
+                    .removeClass('hidden')
+                    .text('Carregando tarefas...');
+
+                estadoVazio.addClass('hidden');
+                listaTarefas.addClass('hidden');
+            }
 
             botaoAtualizar
                 .prop('disabled', true)
                 .text('Atualizando...');
-        } else {
-            estadoCarregando.addClass('hidden');
 
-            botaoAtualizar
-                .prop('disabled', false)
-                .text('Atualizar lista');
+            return;
         }
+
+        estadoCarregando
+            .addClass('hidden')
+            .text('Carregando tarefas...');
+
+        botaoAtualizar
+            .prop('disabled', false)
+            .text('Atualizar lista');
     }
 
     function alterarBotao(botao, desabilitado, texto) {

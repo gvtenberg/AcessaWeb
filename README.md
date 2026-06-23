@@ -18,12 +18,32 @@ repositório/
 │
 ├── index.html
 │
-├── css/
-│   ├── style-tailwind.css
+├── componentes.html
+│
+├── configuracoes.html
+│
+├── login.html
+│
+├── menu.html
+│
+├── solucoes.html
+│
+├── tarefas.html
+│
+│
+├── styles/
+│   ├── style.css
 |   └── tailwind-config.js
 │
+│
 ├── scripts/
-│   └── script.js
+│   ├── app.js
+│   ├── carrega-tema.js
+│   ├── componentes.js
+│   ├── configuracoes.js
+│   ├── contato.js
+│   ├── menu.js
+│   └── tarefas.js
 │
 │
 ├── img/
